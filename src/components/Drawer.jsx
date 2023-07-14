@@ -17,7 +17,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import ArticleIcon from '@mui/icons-material/Article';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import { StyledTypography } from '../pages/Home';
+import { CustomIconButton, StyledTypography } from '../pages/Home';
 
 const isMobile = window.innerWidth <= 768;
 const drawerWidth = isMobile ? 200 : 280;
@@ -82,11 +82,9 @@ function Drawer({ handleDrawerClose, open, isDark }) {
     const icons = [<HomeIcon/>,<ArticleIcon/>,<AccountCircleIcon/>,<InfoIcon/>]
     const { pathname } = useLocation()
     return (
-        <CustomDrawer variant="permanent" open={open} sx={{
-
-        }}>
+        <CustomDrawer variant="permanent" open={open} sx={{}}>
             <Stack flexDirection="row" justifyContent="space-between">
-                <DrawerHeader>
+                <DrawerHeader sx={{marginY: (open) ? isMobile?"8px":"4px" : "0"}}>
                     <Box
                         component="img"
                         sx={{
@@ -101,9 +99,9 @@ function Drawer({ handleDrawerClose, open, isDark }) {
                     <StyledTypography variant='h6' sx={{marginLeft:"10px"}} component={Link} to="/">Blog</StyledTypography>
                 </DrawerHeader>
                 <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
+                    <CustomIconButton onClick={handleDrawerClose}>
                         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
+                    </CustomIconButton>
                 </DrawerHeader>
             </Stack>
             <Divider />

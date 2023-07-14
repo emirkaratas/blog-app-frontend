@@ -13,7 +13,7 @@ function SideBar() {
     const categories = { "Yazılım": "/posts?category=yazilim", "Donanım": "/posts?category=donanim", "Oyun": "/posts?category=oyun", "Otomobil": "/posts?category=otomobil", "Yaşam": "/posts?category=yasam", "Müzik": "/posts?category=muzik", "Film & Dizi": "/posts?category=film-dizi", "Giyilebilir Teknoloji": "/posts?category=giyilebilir-teknoloji" }
     const isMobile = window.innerWidth < 768;
     return (
-        <Grid item xs={12} md={4} order={{ xs: 1 }}>
+        <Grid item xs={12} md={4} order={{ xs: 1 }} >
             <Item sx={{ borderRadius: "10px", padding: "10px" }} >
                 <Typography variant="h6" gutterBottom>
                     Kategoriler

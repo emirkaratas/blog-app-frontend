@@ -13,7 +13,7 @@ import { fetchProducts } from '../services/Api';
 import { useQuery } from 'react-query';
 import { Autocomplete, TextField } from '@mui/material';
 import { useDebounce } from '@uidotdev/usehooks';
-import { StyledTypography } from '../pages/Home';
+import { CustomIconButton, StyledTypography } from '../pages/Home';
 
 const isMobile = window.innerWidth <= 768;
 const drawerWidth = isMobile ? 200 : 280;
@@ -64,9 +64,8 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
     return (
         <CustomAppBar position="fixed" open={open} color="inherit" >
             <Stack direction="row" justifyContent="space-between">
-                <Toolbar >
-                    <IconButton
-                        color="inherit"
+                <Toolbar>
+                    <CustomIconButton                   
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
@@ -76,7 +75,7 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                         }}
                     >
                         <MenuIcon />
-                    </IconButton>  
+                    </CustomIconButton>  
                     {
                         !open && <Box
                             component="img"
@@ -93,8 +92,7 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                     }
                     {
                         !open && <StyledTypography variant='h6' sx={{marginLeft:"10px"}} component={Link} to="/">Blog</StyledTypography>
-                    }
-                    
+                    }         
                 </Toolbar>
                 <Autocomplete
                     value={result}
