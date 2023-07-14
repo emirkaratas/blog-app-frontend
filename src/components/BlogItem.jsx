@@ -8,16 +8,7 @@ import {
     Typography,
 } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/material/styles'
-
-
-const StyledTypography = styled(Typography)(({ theme }) => ({
-    cursor: "pointer",
-    transition: ".3s ",
-    ':hover': {
-        color: `${theme.palette.primary.main}`
-    },
-}))
+import { StyledTypography } from '../pages/Home';
 
 function BlogItem({ recommended }) {
     const theme = useTheme();

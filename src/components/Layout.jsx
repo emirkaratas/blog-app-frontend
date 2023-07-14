@@ -18,11 +18,16 @@ export default function Layout({ children }) {
     },
   });
 
+  const [open, setOpen] = React.useState(JSON.parse(localStorage.getItem("isDrawerOpen")) || false);
+  
   React.useEffect(() => {
     localStorage.setItem("isDark", isDark);
   }, [isDark]);
 
-  const [open, setOpen] = React.useState(false);
+  React.useEffect(() => {
+    localStorage.setItem("isDrawerOpen", open);
+  }, [open]);
+
 
   const handleDrawerOpen = () => {
     setOpen(true);

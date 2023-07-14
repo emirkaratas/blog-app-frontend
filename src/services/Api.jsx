@@ -5,3 +5,7 @@ export const fetchProducts = async ({ queryKey: [_, term] }) => {
     const result = (data.users || []).sort((a, b) => (a.firstName > b.firstName) ? 1 : -1)
     return result
 }
+
+export const fetchPosts = async ({queryKey}) => {
+    console.log(queryKey[1])
+}

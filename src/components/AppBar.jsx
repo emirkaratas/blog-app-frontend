@@ -8,11 +8,12 @@ import NightlightRoundIcon from '@mui/icons-material/NightlightRound';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { fetchProducts } from '../services/Api';
 import { useQuery } from 'react-query';
-import { Autocomplete, TextField, Typography } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import { useDebounce } from '@uidotdev/usehooks';
+import { StyledTypography } from '../pages/Home';
 
 const isMobile = window.innerWidth <= 768;
 const drawerWidth = isMobile ? 200 : 280;
@@ -91,7 +92,7 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                         />  
                     }
                     {
-                        !open && <Typography variant={isMobile?"body1":"h6"} sx={{marginLeft:"10px"}}>Blog</Typography>
+                        !open && <StyledTypography variant='h6' sx={{marginLeft:"10px"}} component={Link} to="/">Blog</StyledTypography>
                     }
                     
                 </Toolbar>
@@ -108,7 +109,7 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                     sx={{ width: 500, marginY: 1 }}
                     renderInput={(params, item) => <TextField {...params}
                         label="Yazınız"
-                        onSelect={() => navigate(result && `/${result.id}`)}
+                        onSelect={() => navigate(result && `/posts/${result.id}`)}
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                     />

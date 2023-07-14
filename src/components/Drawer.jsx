@@ -10,12 +10,14 @@ import { styled, useTheme } from '@mui/material/styles';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import Box from '@mui/material/Box';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
+import InfoIcon from '@mui/icons-material/Info';
+import ArticleIcon from '@mui/icons-material/Article';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import { createTheme } from '@mui/material';
+import { StyledTypography } from '../pages/Home';
 
 const isMobile = window.innerWidth <= 768;
 const drawerWidth = isMobile ? 200 : 280;
@@ -73,9 +75,11 @@ function Drawer({ handleDrawerClose, open, isDark }) {
     const navigate = useNavigate()
     const routes = {
         "Ana Sayfa": "/",
-        "Hakkında": "/about",
-        "Hesap": "/profile"
+        "Yazılar":"/posts",
+        "Hesap": "/profile",
+        "Hakkında": "/about", 
     };
+    const icons = [<HomeIcon/>,<ArticleIcon/>,<AccountCircleIcon/>,<InfoIcon/>]
     const { pathname } = useLocation()
     return (
         <CustomDrawer variant="permanent" open={open} sx={{
@@ -94,6 +98,7 @@ function Drawer({ handleDrawerClose, open, isDark }) {
                         alt="Logo"
                         src={"https://images.prismic.io/userzoom/7d6cc26c-b2fa-446f-aec8-149568e4e56c_Zooie.png?auto=compress,format"}
                     />
+                    <StyledTypography variant='h6' sx={{marginLeft:"10px"}} component={Link} to="/">Blog</StyledTypography>
                 </DrawerHeader>
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
@@ -124,7 +129,7 @@ function Drawer({ handleDrawerClose, open, isDark }) {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                    {icons[index]}
                                 </ListItemIcon>
                                 <ListItemText primary={routeName} sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
