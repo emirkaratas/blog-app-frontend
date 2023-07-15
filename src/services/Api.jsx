@@ -9,3 +9,13 @@ export const fetchProducts = async ({ queryKey: [_, term] }) => {
 export const fetchPosts = async ({queryKey}) => {
     console.log(queryKey[1])
 }
+
+export const fetchRegister = async (values) => {
+    // throw "Bu İsimle Kullanıcı Var"
+    console.log(values)
+}
+
+export const fetchLogin = async (values) => {
+    // throw "Hata"
+    console.log(values)
+}

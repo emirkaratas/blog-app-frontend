@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from '../components/Layout'
-import { Divider, IconButton, Stack, Typography } from '@mui/material'
+import { Divider, IconButton, Stack, Typography, Alert } from '@mui/material'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -12,10 +12,12 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import CloseIcon from '@mui/icons-material/Close';
 import { StyledTypography } from './Home';
 import AppleIcon from '@mui/icons-material/Apple';
+import AlertTitle from '@mui/material/AlertTitle';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup'
 import { useTheme } from '@mui/material/styles';
 import { Formik } from 'formik';
+import { fetchLogin } from '../services/Api';
 
 const validationSchema = yup.object().shape({
   password: yup
@@ -38,14 +40,20 @@ const validationSchema = yup.object().shape({
     .required("Zorunlu Bir Alan"),
 })
 
-const handleSubmit = async (values) => {
-  console.log(values)
-}
-
 function Login() {
   const theme = useTheme();
   const isDark = theme.palette.mode == "dark"
   const isMobile = window.innerWidth <= 768;
+
+  const handleSubmit = async (values, bag) => {
+    try {
+      const loginResponse = await fetchLogin()
+      console.log(values)
+    } catch (error) {
+      bag.setErrors({ general: error })
+    }
+  }
+
   return (
     <Layout freeLayout={true}>
       <Grid container sx={{ height: '100vh' }}>
@@ -92,7 +100,7 @@ function Login() {
                   flexGrow: "1",
                   borderRadius: "10px",
                   backgroundColor: "white!important",
-                  border: !isDark?"1.2px solid black":"1.2px solid transparent",
+                  border: !isDark ? "1.2px solid black" : "1.2px solid transparent",
                   transition: ".3s ease-in-out",
                   ":hover": {
                     border: "1.2px solid",
@@ -141,6 +149,14 @@ function Login() {
                 ({ errors, touched, handleChange, handleSubmit, handleBlur, values, isSubmitting }) => (
                   <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width: isMobile ? "80%" : "70%" }}>
                     <Stack>
+                      {
+                        errors.general && (
+                          <Alert severity="error">
+                            <AlertTitle>Error</AlertTitle>
+                            {errors.general}
+                          </Alert>
+                        )
+                      }
                       <TextField
                         margin="normal"
                         fullWidth
@@ -151,7 +167,6 @@ function Login() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         error={touched.email && Boolean(errors.email)}
-                        autoFocus
                       />
                       {errors.email && touched.email && <Typography variant="caption" color="error.main">{errors.email}</Typography>}
                       <TextField
@@ -185,7 +200,7 @@ function Login() {
                       <StyledTypography>
                         Şifremi unuttum
                       </StyledTypography>
-                      <StyledTypography>
+                      <StyledTypography component={Link} to="/register">
                         Hesabın yok mu? Kayıt ol
                       </StyledTypography>
                     </Stack>
