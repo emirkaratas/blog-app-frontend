@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '../components/Layout'
 import { styled } from '@mui/material/styles'
-import { Box, Button, Grid, Divider } from '@mui/material'
+import { Grid } from '@mui/material'
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';

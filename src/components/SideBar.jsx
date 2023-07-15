@@ -1,10 +1,9 @@
-import { Box, Divider, Grid, Stack, Typography, Button } from '@mui/material';
+import { Box, Divider, Grid, Stack, Typography, Button, IconButton } from '@mui/material';
 import React from 'react'
 import { CustomIconButton, Item } from '../pages/Home';
 import BlogItem from './BlogItem';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { Link } from 'react-router-dom';
@@ -26,7 +25,7 @@ function SideBar() {
                     {
                         Object.keys(categories).map((category) => {
                             const key = categories[category];
-                            return <Button variant="outlined" sx={{ margin: "2px" }} component={Link} to={`${key}`} key={key} state={{cat:category}}>
+                            return <Button variant="outlined" sx={{ margin: "2px" }} component={Link} to={`${key}`} key={key} state={{ cat: category }}>
                                 {category}
                             </Button>
                         })
@@ -46,23 +45,20 @@ function SideBar() {
                 <Typography variant="h6" gutterBottom sx={{ marginTop: "16px" }} align="center">
                     Bizi Takip Edin
                 </Typography>
-                <Stack spacing={1} direction="row" justifyContent="center" >
+                <Grid container justifyContent="center">
                     <CustomIconButton aria-label='Facebook'>
                         <FacebookIcon sx={{ fontSize: !isMobile ? "45px" : "40px" }} />
                     </CustomIconButton>
-                    <CustomIconButton aria-label='Facebook'>
+                    <CustomIconButton aria-label='Instagram'>
                         <InstagramIcon sx={{ fontSize: !isMobile ? "45px" : "40px" }} />
                     </CustomIconButton>
-                    <CustomIconButton aria-label='Facebook'>
+                    <CustomIconButton aria-label='Twitter'>
                         <TwitterIcon sx={{ fontSize: !isMobile ? "45px" : "40px" }} />
                     </CustomIconButton>
-                    <CustomIconButton aria-label='Facebook'>
+                    <CustomIconButton aria-label='Youtube'>
                         <YouTubeIcon sx={{ fontSize: !isMobile ? "45px" : "40px" }} />
                     </CustomIconButton>
-                    <CustomIconButton aria-label='Facebook'>
-                        <TelegramIcon sx={{ fontSize: !isMobile ? "45px" : "40px" }} />
-                    </CustomIconButton>
-                </Stack>
+                </Grid>
                 <Divider sx={{ marginTop: "16px" }} />
                 <Typography sx={{ marginTop: "16px", textAlign: "center" }}>Copyright © 2023 Blog, Inc.</Typography>
             </Item>

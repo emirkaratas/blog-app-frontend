@@ -6,7 +6,7 @@ import { createTheme } from '@mui/material';
 import AppBar from './AppBar';
 import Drawer, { DrawerHeader } from './Drawer';
 
-export default function Layout({ children }) {
+export default function Layout({ children, freeLayout }) {
   const [isDark, setIsDark] = React.useState(JSON.parse(localStorage.getItem("isDark")) || false)
   const handleThemeChange = () => setIsDark(!isDark)
   const darkTheme = createTheme({
@@ -19,7 +19,7 @@ export default function Layout({ children }) {
   });
 
   const [open, setOpen] = React.useState(JSON.parse(localStorage.getItem("isDrawerOpen")) || false);
-  
+
   React.useEffect(() => {
     localStorage.setItem("isDark", isDark);
   }, [isDark]);
@@ -40,16 +40,19 @@ export default function Layout({ children }) {
   return (
     <ThemeProvider theme={darkTheme} >
       <CssBaseline />
-      <Box sx={{
-        display: 'flex'
-      }}>
-        <AppBar open={open} handleDrawerOpen={handleDrawerOpen} handleThemeChange={handleThemeChange} isDark={isDark} />
-        <Drawer handleDrawerClose={handleDrawerClose} open={open} isDark={isDark} />
-        <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
-          <DrawerHeader />
-          {children}
+      {
+        freeLayout == true ? children : <Box sx={{
+          display: 'flex'
+        }}>
+          <AppBar open={open} handleDrawerOpen={handleDrawerOpen} handleThemeChange={handleThemeChange} isDark={isDark} />
+          <Drawer handleDrawerClose={handleDrawerClose} open={open} isDark={isDark} />
+          <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
+            <DrawerHeader />
+            {children}
+          </Box>
         </Box>
-      </Box>
+      }
+
     </ThemeProvider>
   );
 }
