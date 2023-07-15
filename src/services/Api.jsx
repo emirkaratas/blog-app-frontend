@@ -19,3 +19,8 @@ export const fetchLogin = async (values) => {
     // throw "Hata"
     console.log(values)
 }
+
+export const postResetPassword = async (values) => {
+    // throw "Şifre Yanlış"
+    console.log(values)
+}

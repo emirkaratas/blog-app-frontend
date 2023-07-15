@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme } from '@mui/material';
 import AppBar from './AppBar';
 import Drawer, { DrawerHeader } from './Drawer';
+import { SnackbarProvider } from 'notistack';
 
 export default function Layout({ children, freeLayout }) {
   const [isDark, setIsDark] = React.useState(JSON.parse(localStorage.getItem("isDark")) || false)
@@ -44,6 +45,10 @@ export default function Layout({ children, freeLayout }) {
         freeLayout == true ? children : <Box sx={{
           display: 'flex'
         }}>
+          <SnackbarProvider anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }} />
           <AppBar open={open} handleDrawerOpen={handleDrawerOpen} handleThemeChange={handleThemeChange} isDark={isDark} />
           <Drawer handleDrawerClose={handleDrawerClose} open={open} isDark={isDark} />
           <Box component="main" sx={{ flexGrow: 1, p: 1 }}>

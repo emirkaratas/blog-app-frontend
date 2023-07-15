@@ -17,6 +17,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import { CustomIconButton, StyledTypography } from '../pages/Home';
+import Profile from './Profile';
 
 const isMobile = window.innerWidth <= 768;
 const drawerWidth = isMobile ? 200 : 280;
@@ -72,18 +73,23 @@ const CustomDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== '
 function Drawer({ handleDrawerClose, open, isDark }) {
     const theme = useTheme();
     const navigate = useNavigate()
+
+    const [openProfile, setOpenProfile] = React.useState(false);
+    const handleOpenProfile = () => setOpenProfile(true);
+    const handleCloseProfile = () => setOpenProfile(false);
+
     const routes = {
         "Ana Sayfa": "/",
-        "Yazılar":"/posts",
+        "Yazılar": "/posts",
         "Giriş Yap": "/login",
-        "Hakkında": "/about", 
+        "Hakkında": "/about",
     };
-    const icons = [<HomeIcon/>,<ArticleIcon/>,<AccountCircleIcon/>,<InfoIcon/>]
+    const icons = [<HomeIcon />, <ArticleIcon />, <AccountCircleIcon />, <InfoIcon />]
     const { pathname } = useLocation()
     return (
         <CustomDrawer variant="permanent" open={open} sx={{}}>
             <Stack flexDirection="row" justifyContent="space-between">
-                <DrawerHeader sx={{marginY: (open) ? isMobile?"8px":"4px" : "0"}}>
+                <DrawerHeader sx={{ marginY: (open) ? isMobile ? "8px" : "4px" : "0" }}>
                     <Box
                         component="img"
                         sx={{
@@ -95,7 +101,7 @@ function Drawer({ handleDrawerClose, open, isDark }) {
                         alt="Logo"
                         src={"https://images.prismic.io/userzoom/7d6cc26c-b2fa-446f-aec8-149568e4e56c_Zooie.png?auto=compress,format"}
                     />
-                    <StyledTypography variant='h6' sx={{marginLeft:"10px"}} component={Link} to="/">Blog</StyledTypography>
+                    <StyledTypography variant='h6' sx={{ marginLeft: "10px" }} component={Link} to="/">Blog</StyledTypography>
                 </DrawerHeader>
                 <DrawerHeader>
                     <CustomIconButton onClick={handleDrawerClose}>
@@ -133,7 +139,30 @@ function Drawer({ handleDrawerClose, open, isDark }) {
                         </ListItem>
                     );
                 })}
+                <ListItem key="profile" disablePadding sx={{ display: 'block' }} >
+                    <ListItemButton
+                        onClick={handleOpenProfile}
+                        selected={openProfile}
+                        sx={{
+                            minHeight: 60,
+                            justifyContent: open ? 'initial' : 'center',
+                            px: 2.5,
+                        }}
+                    >
+                        <ListItemIcon
+                            sx={{
+                                minWidth: 0,
+                                mr: open ? 3 : 'auto',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <AccountCircleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Profil" sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                </ListItem>
             </List>
+            <Profile openProfile={openProfile} handleCloseProfile={handleCloseProfile}/>
         </CustomDrawer>
     )
 }
