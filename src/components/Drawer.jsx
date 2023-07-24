@@ -19,11 +19,11 @@ import Stack from '@mui/material/Stack';
 import { CustomIconButton, StyledTypography } from '../pages/Home';
 import Profile from './Profile';
 
-const isMobile = window.innerWidth <= 768;
-const drawerWidth = isMobile ? 200 : 280;
-
 const openedMixin = (theme) => ({
-    width: drawerWidth,
+    width: "200px",
+    [theme.breakpoints.up("sm")]: {
+        width: "280px",
+    },
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -55,7 +55,10 @@ export const DrawerHeader = styled('div')(({ theme }) => ({
 
 const CustomDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
-        width: drawerWidth,
+        width: "200px",
+        [theme.breakpoints.up("sm")]: {
+            width: "280px",
+        },
         flexShrink: 0,
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
@@ -73,23 +76,26 @@ const CustomDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== '
 function Drawer({ handleDrawerClose, open, isDark }) {
     const theme = useTheme();
     const navigate = useNavigate()
+    const loggedIn = false
+    const role = "Admin"
 
     const [openProfile, setOpenProfile] = React.useState(false);
     const handleOpenProfile = () => setOpenProfile(true);
     const handleCloseProfile = () => setOpenProfile(false);
 
-    const routes = {
-        "Ana Sayfa": "/",
-        "Yazılar": "/posts",
-        "Giriş Yap": "/login",
-        "Hakkında": "/about",
-    };
-    const icons = [<HomeIcon />, <ArticleIcon />, <AccountCircleIcon />, <InfoIcon />]
+    const routes = [
+        { name: "Ana Sayfa", link: "/", modal: { onClick: null, isModal: false, selected: null }, icon: <HomeIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
+        { name: "Yazılar", link: "/posts", modal: { onClick: null, isModal: false, selected: null }, icon: <ArticleIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
+        { name: "Hakkında", link: "/about", modal: { onClick: null, isModal: false, selected: null }, icon: <InfoIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
+        { name: "Giriş Yap", link: "/login", modal: { onClick: null, isModal: false, selected: null }, icon: <AccountCircleIcon />, show: !loggedIn, roles: ["Admin", "Guest", "Writer"] },
+        { name: "Profil", link: "", modal: { onClick: handleOpenProfile, isModal: true, selected: openProfile }, icon: <AccountCircleIcon />, show: loggedIn, roles: ["Admin", "Guest", "Writer"] },
+    ]
+
     const { pathname } = useLocation()
     return (
         <CustomDrawer variant="permanent" open={open} sx={{}}>
             <Stack flexDirection="row" justifyContent="space-between">
-                <DrawerHeader sx={{ marginY: (open) ? isMobile ? "8px" : "4px" : "0" }}>
+                <DrawerHeader sx={{ marginY: { xs: open ? "8px" : "0px", sm: open ? "4px" : "0px" } }}>
                     <Box
                         component="img"
                         sx={{
@@ -111,58 +117,38 @@ function Drawer({ handleDrawerClose, open, isDark }) {
             </Stack>
             <Divider />
             <List>
-                {Object.keys(routes).map((routeName, index) => {
-                    const route = routes[routeName];
+                {routes.map((route) => {
                     return (
-                        <ListItem key={route} disablePadding sx={{ display: 'block' }} >
-                            <ListItemButton
-                                component={Link}
-                                to={`${route}`}
-                                selected={route === pathname}
-                                sx={{
-                                    minHeight: 60,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                }}
-                            >
-                                <ListItemIcon
+                        <ListItem key={route.name} disablePadding sx={{ display: route.show ? route.roles.includes(role) ? "block" : "none" : "none" }} >
+                            {
+                                <ListItemButton
+                                    component={Link}
+                                    onClick={route.modal.onClick}
+                                    to={route.link}
+                                    selected={route.modal.isModal == false ? route.link === pathname : route.modal.selected}
                                     sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
+                                        minHeight: 60,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
                                     }}
                                 >
-                                    {icons[index]}
-                                </ListItemIcon>
-                                <ListItemText primary={routeName} sx={{ opacity: open ? 1 : 0 }} />
-                            </ListItemButton>
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        {route.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={route.name} sx={{ opacity: open ? 1 : 0 }} />
+                                </ListItemButton>
+                            }
                         </ListItem>
                     );
                 })}
-                <ListItem key="profile" disablePadding sx={{ display: 'block' }} >
-                    <ListItemButton
-                        onClick={handleOpenProfile}
-                        selected={openProfile}
-                        sx={{
-                            minHeight: 60,
-                            justifyContent: open ? 'initial' : 'center',
-                            px: 2.5,
-                        }}
-                    >
-                        <ListItemIcon
-                            sx={{
-                                minWidth: 0,
-                                mr: open ? 3 : 'auto',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <AccountCircleIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Profil" sx={{ opacity: open ? 1 : 0 }} />
-                    </ListItemButton>
-                </ListItem>
             </List>
-            <Profile openProfile={openProfile} handleCloseProfile={handleCloseProfile}/>
+            <Profile openProfile={openProfile} handleCloseProfile={handleCloseProfile} />
         </CustomDrawer>
     )
 }

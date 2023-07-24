@@ -24,6 +24,7 @@ code {
 
 ::-webkit-scrollbar-thumb {
   background: #888;
+  border-radius: 15px;
 }
 
 ::-webkit-scrollbar-thumb:hover {

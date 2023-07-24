@@ -43,7 +43,6 @@ const validationSchema = yup.object().shape({
 function Login() {
   const theme = useTheme();
   const isDark = theme.palette.mode == "dark"
-  const isMobile = window.innerWidth <= 768;
 
   const handleSubmit = async (values, bag) => {
     try {
@@ -58,14 +57,11 @@ function Login() {
     <Layout freeLayout={true}>
       <Grid container sx={{ height: '100vh' }}>
         <Grid item xs={12} md={6} component={Paper} elevation={6}>
-          {
-            isMobile &&
-            <Grid container justifyContent="flex-end">
-              <IconButton component={Link} to="/" sx={{ position: "absolute" }}>
-                <CloseIcon sx={{ fontSize: "30px" }} />
-              </IconButton>
-            </Grid>
-          }
+          <Grid container justifyContent="flex-end" sx={{ display: { xs: "flex", md: "none" } }}>
+            <IconButton component={Link} to="/" sx={{ position: "absolute" }}>
+              <CloseIcon sx={{ fontSize: "30px" }} />
+            </IconButton>
+          </Grid>
           <Stack justifyContent="center" alignItems="center" sx={{
             mx: 4,
             height: "100%",
@@ -73,7 +69,7 @@ function Login() {
             <Typography component="h1" variant="h5" sx={{ marginBottom: "5px" }}>
               Giriş Yap
             </Typography>
-            <Stack direction="row" spacing={2} sx={{ width: isMobile ? "80%" : "70%", marginY: "10px" }}>
+            <Stack direction="row" spacing={2} sx={{ width: { xs: "80%", md: "70%" }, marginY: "10px" }}>
               <IconButton
                 component={Link}
                 to="https://facebook.com"
@@ -139,7 +135,7 @@ function Login() {
                 <AppleIcon sx={{ fontSize: "40px", color: "white" }} />
               </IconButton>
             </Stack>
-            <Stack direction="row" sx={{ width: isMobile ? "80%" : "70%", marginTop: "5px", overflow: "hidden" }} justifyContent="center" alignItems="center" spacing={1}>
+            <Stack direction="row" sx={{ width: { xs: "80%", md: "70%" }, marginTop: "5px", overflow: "hidden" }} justifyContent="center" alignItems="center" spacing={1}>
               <Divider sx={{ width: "100%" }} />
               <Typography sx={{ marginX: "3px" }}>Veya</Typography>
               <Divider sx={{ width: "100%" }} />
@@ -147,7 +143,7 @@ function Login() {
             <Formik initialValues={{ email: '', password: '', rememberMe: 'false' }} validationSchema={validationSchema} onSubmit={handleSubmit}>
               {
                 ({ errors, touched, handleChange, handleSubmit, handleBlur, values, isSubmitting }) => (
-                  <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width: isMobile ? "80%" : "70%" }}>
+                  <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width: { xs: "80%", md: "70%" } }}>
                     <Stack>
                       {
                         errors.general && (
@@ -195,7 +191,7 @@ function Login() {
                     >
                       Giriş Yap
                     </Button>
-                    <Stack direction={isMobile ? "column" : "row"} sx={{ marginTop: "5px" }} justifyContent="space-between" alignItems="center">
+                    <Stack direction={{xs:"column",md:"row"}} sx={{ marginTop: "5px" }} justifyContent="space-between" alignItems="center">
                       <StyledTypography>
                         Şifremi unuttum
                       </StyledTypography>
@@ -217,13 +213,11 @@ function Login() {
             backgroundPosition: 'right bottom',
           }}
         >
-          {
-            !isMobile && <Grid container justifyContent="flex-end">
-              <IconButton component={Link} to="/">
-                <CloseIcon sx={{ fontSize: "40px" }} />
-              </IconButton>
-            </Grid>
-          }
+          <Grid container justifyContent="flex-end" sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton component={Link} to="/">
+              <CloseIcon sx={{ fontSize: "40px" }} />
+            </IconButton>
+          </Grid>
         </Grid>
       </Grid>
     </Layout>

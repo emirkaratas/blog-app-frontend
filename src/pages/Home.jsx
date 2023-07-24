@@ -33,13 +33,13 @@ export const StyledTypography = styled(Typography)(({ theme }) => ({
         color: `${theme.palette.primary.main}`
     },
     textDecoration: "none",
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
 }))
 
 function Home() {
     return (
         <Layout>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="flex-start">
                 <Grid item xs={12} md={8} order={{ xs: 2, md: 1 }} >
                     <Item sx={{ borderRadius: "10px", padding: "10px" }}>
                         <Stack

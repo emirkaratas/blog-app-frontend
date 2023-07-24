@@ -21,14 +21,12 @@ import { Formik } from 'formik';
 import { postResetPassword } from '../services/Api';
 import { enqueueSnackbar } from 'notistack';
 
-const isMobile = window.innerWidth <= 768;
-
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: isMobile ? "80%" : "500px",
+    width: {xs:"80%", sm:"500px"},
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,

@@ -15,9 +15,6 @@ import { Autocomplete, TextField } from '@mui/material';
 import { useDebounce } from '@uidotdev/usehooks';
 import { CustomIconButton, StyledTypography } from '../pages/Home';
 
-const isMobile = window.innerWidth <= 768;
-const drawerWidth = isMobile ? 200 : 280;
-
 const CustomAppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
@@ -27,8 +24,12 @@ const CustomAppBar = styled(MuiAppBar, {
         duration: theme.transitions.duration.leavingScreen,
     }),
     ...(open && {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: "200px",
+        width: "calc(100% - 200px)",
+        [theme.breakpoints.up("sm")]: {
+            width: "calc(100% - 280px)",
+            marginLeft: "280px"
+        },
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -65,7 +66,7 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
         <CustomAppBar position="fixed" open={open} color="inherit" >
             <Stack direction="row" justifyContent="space-between">
                 <Toolbar>
-                    <CustomIconButton                   
+                    <CustomIconButton
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
@@ -75,7 +76,7 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                         }}
                     >
                         <MenuIcon />
-                    </CustomIconButton>  
+                    </CustomIconButton>
                     {
                         !open && <Box
                             component="img"
@@ -83,23 +84,23 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                                 height: 48,
                                 color: 'white',
                                 cursor: "pointer",
-                                
+
                             }}
                             onClick={() => navigate("/")}
                             alt="Logo"
                             src={"https://images.prismic.io/userzoom/7d6cc26c-b2fa-446f-aec8-149568e4e56c_Zooie.png?auto=compress,format"}
-                        />  
+                        />
                     }
                     {
-                        !open && <StyledTypography variant='h6' sx={{marginLeft:"10px"}} component={Link} to="/">Blog</StyledTypography>
-                    }         
+                        !open && <StyledTypography variant='h6' sx={{ marginLeft: "10px" }} component={Link} to="/">Blog</StyledTypography>
+                    }
                 </Toolbar>
                 <Autocomplete
                     value={result}
                     onChange={(e, v) => v != null && setResult(v)}
                     options={data != undefined && data.sort((a, b) =>
                         b.hair.color.toString().localeCompare(a.hair.color.toString())
-                    ) || []}      
+                    ) || []}
                     groupBy={(option) => groupData(option)}
                     isOptionEqualToValue={(option, value) => option.value === value.value}
                     getOptionLabel={(option) => (option.firstName ? `${option.firstName} ${option.lastName}` : '')}

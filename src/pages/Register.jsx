@@ -42,14 +42,13 @@ const validationSchema = yup.object().shape({
     userName: yup
         .string()
         .required("Zorunlu Bir Alan"),
-        agreeTerms: yup
+    agreeTerms: yup
         .boolean()
         .required("Kullanıcı Sözleşmesini Kabul Etmek Zorunludur")
         .oneOf([true], "Kullanıcı Sözleşmesini Kabul Etmek Zorunludur"),
 })
 
 function Register() {
-    const isMobile = window.innerWidth <= 768;
     const handleSubmit = async (values, bag) => {
         try {
             const registerResponse = await fetchRegister(values)
@@ -58,18 +57,16 @@ function Register() {
             bag.setErrors({ general: error })
         }
     }
+
     return (
         <Layout freeLayout={true}>
             <Grid container sx={{ height: '100vh' }}>
                 <Grid item xs={12} md={6} component={Paper} elevation={6}>
-                    {
-                        isMobile &&
-                        <Grid container justifyContent="flex-end">
-                            <IconButton component={Link} to="/" sx={{ position: "absolute" }}>
-                                <CloseIcon sx={{ fontSize: "30px" }} />
-                            </IconButton>
-                        </Grid>
-                    }
+                    <Grid container justifyContent="flex-end" sx={{ display: { xs: "flex", md: "none" } }}>
+                        <IconButton component={Link} to="/" sx={{ position: "absolute" }}>
+                            <CloseIcon sx={{ fontSize: "30px" }} />
+                        </IconButton>
+                    </Grid>
                     <Stack justifyContent="center" alignItems="center" sx={{
                         mx: 4,
                         height: "100%",
@@ -77,12 +74,11 @@ function Register() {
                         <Typography component="h1" variant="h5" sx={{ marginBottom: "5px" }}>
                             Kayıt Ol
                         </Typography>
-                        <Divider sx={{ width: isMobile ? "80%" : "70%", marginTop: "5px" }} />
-
+                        <Divider sx={{ width: { xs: "80%", md: "70%" }, marginTop: "5px" }} />
                         <Formik initialValues={{ email: '', password: '', passwordConfirm: '', agreeTerms: '', userName: '' }} validationSchema={validationSchema} onSubmit={handleSubmit}>
                             {
                                 ({ errors, touched, handleChange, handleSubmit, handleBlur, values, isSubmitting }) => (
-                                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width: isMobile ? "80%" : "70%" }}>
+                                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width: { xs: "80%", md: "70%" } }}>
                                         <Stack>
                                             {
                                                 errors.general && (
@@ -145,9 +141,9 @@ function Register() {
                                             {errors.passwordConfirm && touched.passwordConfirm && <Typography variant="caption" color="error.main">{errors.passwordConfirm}</Typography>}
 
                                             <FormControlLabel
-                                                control={<Checkbox value={values.agreeTerms} color="primary" onBlur={handleBlur} onChange={handleChange} id='agreeTerms' name="agreeTerms" error={touched.agreeTerms && errors.agreeTerms}/>}
+                                                control={<Checkbox value={values.agreeTerms} color="primary" onBlur={handleBlur} onChange={handleChange} id='agreeTerms' name="agreeTerms" error={touched.agreeTerms && errors.agreeTerms} />}
                                                 label="Kullanıcı Sözleşmesini Kabul Ediyorum"
-                                                sx={{marginTop:isMobile??"10px"}}
+                                                sx={{ marginTop: { xs: "10px", md: "0px" } }}
                                             />
                                             {errors.agreeTerms && touched.agreeTerms && <Typography variant="caption" color="error.main">{errors.agreeTerms}</Typography>}
                                         </Stack>
@@ -178,13 +174,11 @@ function Register() {
                         backgroundPosition: 'right bottom',
                     }}
                 >
-                    {
-                        !isMobile && <Grid container justifyContent="flex-end">
-                            <IconButton component={Link} to="/">
-                                <CloseIcon sx={{ fontSize: "40px" }} />
-                            </IconButton>
-                        </Grid>
-                    }
+                    <Grid container justifyContent="flex-end" sx={{ display: { xs: "none", md: "flex" } }}>
+                        <IconButton component={Link} to="/">
+                            <CloseIcon sx={{ fontSize: "40px" }} />
+                        </IconButton>
+                    </Grid>
                 </Grid>
             </Grid>
         </Layout>
