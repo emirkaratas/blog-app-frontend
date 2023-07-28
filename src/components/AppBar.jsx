@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchProducts } from '../services/Api';
 import { useQuery } from 'react-query';
+import Avatar from '@mui/material/Avatar';
 import { Autocomplete, TextField } from '@mui/material';
 import { useDebounce } from '@uidotdev/usehooks';
 import { CustomIconButton, StyledTypography } from '../pages/Home';
@@ -63,7 +64,7 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
     }
 
     return (
-        <CustomAppBar position="fixed" open={open} color="inherit" >
+        <CustomAppBar position="fixed" open={open} color="primary" >
             <Stack direction="row" justifyContent="space-between">
                 <Toolbar>
                     <CustomIconButton
@@ -71,8 +72,13 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                         onClick={handleDrawerOpen}
                         edge="start"
                         sx={{
-                            mr: 3,
+                            mr: 2,
+                            color:!isDark&&"white",
                             ...(open && { display: 'none' }),
+                            ":hover":{
+                                color:!isDark&&"white",
+                                opacity:!isDark&&".8"
+                            }
                         }}
                     >
                         <MenuIcon />
@@ -82,17 +88,23 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                             component="img"
                             sx={{
                                 height: 48,
+                                width:48,
+                                objectFit:"cover",
                                 color: 'white',
                                 cursor: "pointer",
-
+                                border: !isDark&&'.1px solid white',
+                                borderRadius:"50%"
                             }}
                             onClick={() => navigate("/")}
                             alt="Logo"
                             src={"https://images.prismic.io/userzoom/7d6cc26c-b2fa-446f-aec8-149568e4e56c_Zooie.png?auto=compress,format"}
                         />
-                    }
+                    }    
                     {
-                        !open && <StyledTypography variant='h6' sx={{ marginLeft: "10px" }} component={Link} to="/">Blog</StyledTypography>
+                        !open && <StyledTypography variant='h6' sx={{ marginLeft: "10px", color:!isDark&&"white", ":hover":{
+                            color:!isDark&&"white",
+                            opacity:!isDark&&".9"
+                        } }} component={Link} to="/">Blog</StyledTypography>
                     }
                 </Toolbar>
                 <Autocomplete
@@ -105,20 +117,29 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                     isOptionEqualToValue={(option, value) => option.value === value.value}
                     getOptionLabel={(option) => (option.firstName ? `${option.firstName} ${option.lastName}` : '')}
                     noOptionsText={inputValue.length <= 1 ? "Yazınız" : "Sonuç Bulunamadı"}
-                    sx={{ width: 500, marginY: 1 }}
+                    sx={{ width: 500, marginY: 1,'& fieldset': { borderRadius: "5px" } }}
                     renderInput={(params, item) => <TextField {...params}
+                    sx={{ marginY: 0,background:!isDark&&"white", borderRadius:"5px", textColor: !isDark&&"white","& label": {
+                        "&.Mui-focused": {
+                          color: !isDark&&'black'
+                        },
+                      } }}
                         label="Yazınız"
                         onSelect={() => navigate(result && `/posts/${result.id}`)}
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
+                        variant={!isDark?"filled":"outlined"}
+                        InputProps={{ ...params.InputProps, disableUnderline: true }}
                     />
                     }
                 />
                 <Toolbar>
                     <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-                        <ThemeButton isdark={isDark.toString()} onClick={handleThemeChange}>
+                        <CustomIconButton isdark={isDark.toString()} onClick={handleThemeChange}
+                        sx={{color:!isDark&&"white",":hover":{color:!isDark&&"white", opacity:!isDark&&".8"}}}
+                        >
                             {isDark ? <NightlightRoundIcon /> : <LightModeIcon />}
-                        </ThemeButton>
+                        </CustomIconButton>
                     </Stack>
                 </Toolbar>
             </Stack>

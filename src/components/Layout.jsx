@@ -6,6 +6,7 @@ import { createTheme } from '@mui/material';
 import AppBar from './AppBar';
 import Drawer, { DrawerHeader } from './Drawer';
 import { SnackbarProvider } from 'notistack';
+import { ScrollTop } from './ScrollTopFab';
 
 export default function Layout({ children, freeLayout }) {
   const [isDark, setIsDark] = React.useState(JSON.parse(localStorage.getItem("isDark")) || false)
@@ -54,6 +55,7 @@ export default function Layout({ children, freeLayout }) {
           <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
             <DrawerHeader />
             {children}
+            <ScrollTop/>
           </Box>
         </Box>
       }
