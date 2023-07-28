@@ -129,7 +129,7 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         variant={!isDark?"filled":"outlined"}
-                        InputProps={{ ...params.InputProps, disableUnderline: true }}
+                        InputProps={!isDark?{ ...params.InputProps, disableUnderline: true }:{...params.InputProps}}
                     />
                     }
                 />
