@@ -93,8 +93,8 @@ function Drawer({ handleDrawerClose, open, isDark }) {
 
     const { pathname } = useLocation()
     return (
-        <CustomDrawer variant="permanent" open={open} sx={{}}>
-            <Stack flexDirection="row" justifyContent="space-between">
+        <CustomDrawer variant="permanent" open={open}>
+            <Stack flexDirection="row" justifyContent="space-between" color="primary">
                 <DrawerHeader sx={{ marginY: { xs: open ? "8px" : "0px", sm: open ? "4px" : "0px" } }}>
                     <Box
                         component="img"
@@ -119,7 +119,7 @@ function Drawer({ handleDrawerClose, open, isDark }) {
             <List>
                 {routes.map((route) => {
                     return (
-                        <ListItem key={route.name} disablePadding sx={{ display: route.show ? route.roles.includes(role) ? "block" : "none" : "none" }} >
+                        <ListItem key={route.name} disablePadding sx={{ display: route.show ? route.roles.includes(role) ? "block" : "none" : "none"}} >
                             {
                                 <ListItemButton
                                     component={Link}
@@ -130,6 +130,12 @@ function Drawer({ handleDrawerClose, open, isDark }) {
                                         minHeight: 60,
                                         justifyContent: open ? 'initial' : 'center',
                                         px: 2.5,
+                                        '&.Mui-selected': {
+                                            backgroundColor: 'rgba(247, 115, 64, .27)',
+                                            ":hover":{
+                                                backgroundColor: 'rgba(247, 115, 64, .33)'
+                                            }
+                                        },
                                     }}
                                 >
                                     <ListItemIcon

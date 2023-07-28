@@ -92,8 +92,6 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                                 objectFit:"cover",
                                 color: 'white',
                                 cursor: "pointer",
-                                border: !isDark&&'.1px solid white',
-                                borderRadius:"50%"
                             }}
                             onClick={() => navigate("/")}
                             alt="Logo"

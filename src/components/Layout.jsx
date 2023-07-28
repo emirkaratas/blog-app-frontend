@@ -15,7 +15,7 @@ export default function Layout({ children, freeLayout }) {
     palette: {
       mode: isDark ? "dark" : "light",
       primary: {
-        main: isDark ? "#FF6347" : "#FF4500"
+        main: "#f57949"
       }
     },
   });
