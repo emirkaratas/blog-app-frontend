@@ -20,7 +20,7 @@ import { CustomIconButton, StyledTypography } from '../pages/Home';
 import Profile from './Profile';
 
 const openedMixin = (theme) => ({
-    width: "200px",
+    width: "180px",
     [theme.breakpoints.up("sm")]: {
         width: "280px",
     },

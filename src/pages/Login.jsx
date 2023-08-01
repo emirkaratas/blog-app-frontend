@@ -7,6 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles'
 import Grid from '@mui/material/Grid';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import CloseIcon from '@mui/icons-material/Close';
@@ -40,6 +41,10 @@ const validationSchema = yup.object().shape({
     .required("Zorunlu Bir Alan"),
 })
 
+const StyledPaperLogin = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'light' && '#F9F9F9',
+}));
+
 function Login() {
   const theme = useTheme();
   const isDark = theme.palette.mode == "dark"
@@ -56,7 +61,7 @@ function Login() {
   return (
     <Layout freeLayout={true}>
       <Grid container sx={{ height: '100vh' }}>
-        <Grid item xs={12} md={6} component={Paper} elevation={6}>
+        <Grid item xs={12} md={6} component={StyledPaperLogin} elevation={6}>
           <Grid container justifyContent="flex-end" sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton component={Link} to="/" sx={{ position: "absolute" }}>
               <CloseIcon sx={{ fontSize: "30px" }} />
