@@ -16,8 +16,8 @@ export const fetchRegister = async (values) => {
 }
 
 export const fetchLogin = async (values) => {
-    // throw "Hata"
-    console.log(values)
+    throw "Hata"
+    //console.log(values)
 }
 
 export const postResetPassword = async (values) => {

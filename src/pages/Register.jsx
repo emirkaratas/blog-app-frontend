@@ -16,6 +16,7 @@ import * as yup from 'yup'
 import AlertTitle from '@mui/material/AlertTitle';
 import { Formik } from 'formik';
 import { fetchRegister } from '../services/Api';
+import { CustomTextFieldAuth, StyledPaperAuth } from './Login';
 
 const validationSchema = yup.object().shape({
     password: yup
@@ -50,7 +51,7 @@ const validationSchema = yup.object().shape({
 })
 const StyledPaperRegister = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'light' && '#F9F9F9',
-  }));
+}));
 
 function Register() {
     const handleSubmit = async (values, bag) => {
@@ -65,7 +66,7 @@ function Register() {
     return (
         <Layout freeLayout={true}>
             <Grid container sx={{ height: '100vh' }}>
-                <Grid item xs={12} md={6} component={StyledPaperRegister} elevation={6}>
+                <Grid item xs={12} md={6} component={StyledPaperAuth} elevation={6}>
                     <Grid container justifyContent="flex-end" sx={{ display: { xs: "flex", md: "none" } }}>
                         <IconButton component={Link} to="/" sx={{ position: "absolute" }}>
                             <CloseIcon sx={{ fontSize: "30px" }} />
@@ -92,7 +93,7 @@ function Register() {
                                                     </Alert>
                                                 )
                                             }
-                                            <TextField
+                                            <CustomTextFieldAuth
                                                 margin="normal"
                                                 fullWidth
                                                 id="email"
@@ -104,7 +105,7 @@ function Register() {
                                                 error={touched.email && Boolean(errors.email)}
                                             />
                                             {errors.email && touched.email && <Typography variant="caption" color="error.main">{errors.email}</Typography>}
-                                            <TextField
+                                            <CustomTextFieldAuth
                                                 margin="normal"
                                                 fullWidth
                                                 name="userName"
@@ -117,7 +118,7 @@ function Register() {
                                                 error={touched.userName && Boolean(errors.userName)}
                                             />
                                             {errors.userName && touched.userName && <Typography variant="caption" color="error.main">{errors.userName}</Typography>}
-                                            <TextField
+                                            <CustomTextFieldAuth
                                                 margin="normal"
                                                 fullWidth
                                                 name="password"
@@ -130,7 +131,7 @@ function Register() {
                                                 error={touched.password && Boolean(errors.password)}
                                             />
                                             {errors.password && touched.password && <Typography variant="caption" color="error.main">{errors.password}</Typography>}
-                                            <TextField
+                                            <CustomTextFieldAuth
                                                 margin="normal"
                                                 fullWidth
                                                 name="passwordConfirm"
@@ -145,7 +146,7 @@ function Register() {
                                             {errors.passwordConfirm && touched.passwordConfirm && <Typography variant="caption" color="error.main">{errors.passwordConfirm}</Typography>}
 
                                             <FormControlLabel
-                                                control={<Checkbox value={values.agreeTerms} color="primary" onBlur={handleBlur} onChange={handleChange} id='agreeTerms' name="agreeTerms" error={touched.agreeTerms && errors.agreeTerms} />}
+                                                control={<Checkbox value={values.agreeTerms} sx={{ color: { xs: "white", md: "inherit" } }} color="primary" onBlur={handleBlur} onChange={handleChange} id='agreeTerms' name="agreeTerms" error={touched.agreeTerms && errors.agreeTerms} />}
                                                 label="Kullanıcı Sözleşmesini Kabul Ediyorum"
                                                 sx={{ marginTop: { xs: "10px", md: "0px" } }}
                                             />
@@ -154,7 +155,7 @@ function Register() {
                                         <Button
                                             type="submit"
                                             fullWidth
-                                            variant="outlined"
+                                            variant="contained"
                                             sx={{ mt: 1.5, mb: 1 }}
                                         >
                                             Kayıt Ol

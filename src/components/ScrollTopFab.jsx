@@ -34,7 +34,8 @@ export const ScrollTop = () => {
                     color="primary"
                     size="medium"
                     sx={{
-                        fontSize: {xs:"12px",md:"32px",lg:"16px"}
+                        fontSize: {xs:"12px",md:"32px",lg:"16px"},
+                        color:"white"
                     }}
                 >
                     <KeyboardArrowUp />

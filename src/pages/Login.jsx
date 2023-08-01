@@ -41,14 +41,48 @@ const validationSchema = yup.object().shape({
     .required("Zorunlu Bir Alan"),
 })
 
-const StyledPaperLogin = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'light' && '#F9F9F9',
+export const StyledPaperAuth = styled(Paper)(({ theme }) => ({
+  [theme.breakpoints.down('md')]: {
+    background: theme.palette.mode === 'light' && "linear-gradient(to bottom, #f57949 0%, #FDB093 70%);",
+    borderRadius: "0",
+    color: "white"
+  },
+  backgroundColor: theme.palette.mode === 'light' && '#F6F6F6',
+}));
+
+export const CustomTextFieldAuth = styled(TextField)(({ theme }) => ({
+  [theme.breakpoints.down('md')]: {
+    '& label.Mui-focused': {
+      color: theme.palette.mode === "light" && 'black',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: theme.palette.mode === "light" && 'green',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: theme.palette.mode === "light" && 'rgba(0, 0, 0, .2)',
+        transition: theme.palette.mode === "light" && ".25s border-color",
+      },
+      '&:hover fieldset': {
+        borderColor: theme.palette.mode === "light" && "rgba(0, 0, 0, .4)",
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: theme.palette.mode === "light" && "rgba(0, 0, 0, .5)",
+      },
+      "&.MuiInputBase-root": {
+        backgroundColor: theme.palette.mode === "light" && "rgba(247, 247, 247, .97)",
+      },
+    },
+  },
+  '& .MuiOutlinedInput-root': {
+    borderRadius: "15px",
+  },
+  '& :-webkit-autofill': {
+    transitionDelay: "9999s"
+  },
 }));
 
 function Login() {
-  const theme = useTheme();
-  const isDark = theme.palette.mode == "dark"
-
   const handleSubmit = async (values, bag) => {
     try {
       const loginResponse = await fetchLogin()
@@ -61,7 +95,7 @@ function Login() {
   return (
     <Layout freeLayout={true}>
       <Grid container sx={{ height: '100vh' }}>
-        <Grid item xs={12} md={6} component={StyledPaperLogin} elevation={6}>
+        <Grid item xs={12} md={6} component={StyledPaperAuth} elevation={6}>
           <Grid container justifyContent="flex-end" sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton component={Link} to="/" sx={{ position: "absolute" }}>
               <CloseIcon sx={{ fontSize: "30px" }} />
@@ -101,7 +135,7 @@ function Login() {
                   flexGrow: "1",
                   borderRadius: "10px",
                   backgroundColor: "white!important",
-                  border: !isDark ? "1.2px solid black" : "1.2px solid transparent",
+                  border: "1.2px solid transparent",
                   transition: ".3s ease-in-out",
                   ":hover": {
                     border: "1.2px solid",
@@ -158,8 +192,9 @@ function Login() {
                           </Alert>
                         )
                       }
-                      <TextField
+                      <CustomTextFieldAuth
                         margin="normal"
+                        sx={{ color: "black" }}
                         fullWidth
                         id="email"
                         label="Email"
@@ -170,7 +205,7 @@ function Login() {
                         error={touched.email && Boolean(errors.email)}
                       />
                       {errors.email && touched.email && <Typography variant="caption" color="error.main">{errors.email}</Typography>}
-                      <TextField
+                      <CustomTextFieldAuth
                         margin="normal"
                         fullWidth
                         name="password"
@@ -182,21 +217,21 @@ function Login() {
                         onBlur={handleBlur}
                         error={touched.password && Boolean(errors.password)}
                       />
-                      {errors.password && touched.password && <Typography variant="caption" color="error.main">{errors.password}</Typography>}
+                      {errors.password && touched.password && <Typography variant="caption"  color="error.main">{errors.password}</Typography>}
                       <FormControlLabel
-                        control={<Checkbox value={values.rememberMe} color="primary" onChange={handleChange} id='rememberMe' name="rememberMe" />}
+                        control={<Checkbox value={values.rememberMe}  sx={{ color:{xs:"white",md:"inherit"} } } color="primary" onChange={handleChange} id='rememberMe' name="rememberMe" />}
                         label="Beni Hatırla"
                       />
                     </Stack>
                     <Button
                       type="submit"
                       fullWidth
-                      variant="outlined"
-                      sx={{ mt: 1.5, mb: 1 }}
+                      variant="contained"
+                      sx={{ mt: 1.5, mb: 1, color: "white" }}
                     >
                       Giriş Yap
                     </Button>
-                    <Stack direction={{xs:"column",md:"row"}} sx={{ marginTop: "5px" }} justifyContent="space-between" alignItems="center">
+                    <Stack direction={{ xs: "column", md: "row" }} sx={{ marginTop: "5px" }} justifyContent="space-between" alignItems="center">
                       <StyledTypography>
                         Şifremi unuttum
                       </StyledTypography>
