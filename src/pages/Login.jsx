@@ -11,7 +11,7 @@ import { styled } from '@mui/material/styles'
 import Grid from '@mui/material/Grid';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import CloseIcon from '@mui/icons-material/Close';
-import { StyledTypography } from './Home';
+import { CustomIconButton, StyledTypography } from './Home';
 import AppleIcon from '@mui/icons-material/Apple';
 import AlertTitle from '@mui/material/AlertTitle';
 import { Link } from 'react-router-dom';
@@ -43,7 +43,7 @@ const validationSchema = yup.object().shape({
 
 export const StyledPaperAuth = styled(Paper)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
-    background: theme.palette.mode === 'light' && "linear-gradient(to bottom, #f57949 0%, #FDB093 70%);",
+    background: theme.palette.mode === 'light' && "linear-gradient(to bottom, #f57949 0%, #FDB093 40%);",
     borderRadius: "0",
     color: "white"
   },
@@ -53,12 +53,9 @@ export const StyledPaperAuth = styled(Paper)(({ theme }) => ({
 export const CustomTextFieldAuth = styled(TextField)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     '& label.Mui-focused': {
-      color: theme.palette.mode === "light" && 'black',
+      color: theme.palette.mode === "light" && 'black'
     },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: theme.palette.mode === "light" && 'green',
-    },
-    '& .MuiOutlinedInput-root': {
+    '& .MuiFilledInput-root': {
       '& fieldset': {
         borderColor: theme.palette.mode === "light" && 'rgba(0, 0, 0, .2)',
         transition: theme.palette.mode === "light" && ".25s border-color",
@@ -74,7 +71,7 @@ export const CustomTextFieldAuth = styled(TextField)(({ theme }) => ({
       },
     },
   },
-  '& .MuiOutlinedInput-root': {
+  '& .MuiFilledInput-root': {
     borderRadius: "15px",
   },
   '& :-webkit-autofill': {
@@ -83,6 +80,7 @@ export const CustomTextFieldAuth = styled(TextField)(({ theme }) => ({
 }));
 
 function Login() {
+  const isDark = JSON.parse(localStorage.getItem("isDark")) || false
   const handleSubmit = async (values, bag) => {
     try {
       const loginResponse = await fetchLogin()
@@ -96,10 +94,36 @@ function Login() {
     <Layout freeLayout={true}>
       <Grid container sx={{ height: '100vh' }}>
         <Grid item xs={12} md={6} component={StyledPaperAuth} elevation={6}>
-          <Grid container justifyContent="flex-end" sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton component={Link} to="/" sx={{ position: "absolute" }}>
-              <CloseIcon sx={{ fontSize: "30px" }} />
-            </IconButton>
+          <Grid container justifyContent="space-between" sx={{ display: { xs: "flex", md: "none" } }}>
+            <Box
+              component="img"
+              sx={{
+                height: { xs: 48, sm: 60 },
+                width: { xs: 48, sm: 60 },
+                objectFit: "cover",
+                color: 'white',
+                cursor: "pointer",
+                position: "absolute",
+                margin: "8px"
+              }}
+              onClick={() => navigate("/")}
+              alt="Logo"
+              src={"https://images.prismic.io/userzoom/7d6cc26c-b2fa-446f-aec8-149568e4e56c_Zooie.png?auto=compress,format"}
+            />
+
+            {
+              isDark
+                ?
+                <CustomIconButton component={Link} to="/" sx={{ position: "absolute", right: 0, margin: "8px" }}>
+                  <CloseIcon sx={{ fontSize: "30px" }} />
+                </CustomIconButton>
+                :
+                <IconButton component={Link} to="/" sx={{ position: "absolute", right: 0, margin: "8px" }}>
+                  <CloseIcon sx={{ fontSize: "30px", color: "white" }} />
+                </IconButton>
+            }
+
+
           </Grid>
           <Stack justifyContent="center" alignItems="center" sx={{
             mx: 4,
@@ -203,6 +227,8 @@ function Login() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         error={touched.email && Boolean(errors.email)}
+                        variant='filled'
+                        InputProps={{ disableUnderline: true }}
                       />
                       {errors.email && touched.email && <Typography variant="caption" color="error.main">{errors.email}</Typography>}
                       <CustomTextFieldAuth
@@ -216,10 +242,13 @@ function Login() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         error={touched.password && Boolean(errors.password)}
+                        variant='filled'
+                        InputProps={{ disableUnderline: true }}
+                        sx={{ marginTop: "8px" }}
                       />
-                      {errors.password && touched.password && <Typography variant="caption"  color="error.main">{errors.password}</Typography>}
+                      {errors.password && touched.password && <Typography variant="caption" color="error.main">{errors.password}</Typography>}
                       <FormControlLabel
-                        control={<Checkbox value={values.rememberMe}  sx={{ color:{xs:"white",md:"inherit"} } } color="primary" onChange={handleChange} id='rememberMe' name="rememberMe" />}
+                        control={<Checkbox value={values.rememberMe} sx={{ color: { xs: "white", md: "inherit" } }} color="primary" onChange={handleChange} id='rememberMe' name="rememberMe" />}
                         label="Beni Hatırla"
                       />
                     </Stack>
@@ -255,7 +284,7 @@ function Login() {
         >
           <Grid container justifyContent="flex-end" sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton component={Link} to="/">
-              <CloseIcon sx={{ fontSize: "40px" }} />
+              <CloseIcon sx={{ fontSize: "40px", color: "white" }} />
             </IconButton>
           </Grid>
         </Grid>

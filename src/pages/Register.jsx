@@ -10,7 +10,7 @@ import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
-import { StyledTypography } from './Home';
+import { CustomIconButton, StyledTypography } from './Home';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup'
 import AlertTitle from '@mui/material/AlertTitle';
@@ -49,11 +49,9 @@ const validationSchema = yup.object().shape({
         .required("Kullanıcı Sözleşmesini Kabul Etmek Zorunludur")
         .oneOf([true], "Kullanıcı Sözleşmesini Kabul Etmek Zorunludur"),
 })
-const StyledPaperRegister = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'light' && '#F9F9F9',
-}));
 
 function Register() {
+    const isDark = JSON.parse(localStorage.getItem("isDark")) || false
     const handleSubmit = async (values, bag) => {
         try {
             const registerResponse = await fetchRegister(values)
@@ -67,10 +65,33 @@ function Register() {
         <Layout freeLayout={true}>
             <Grid container sx={{ height: '100vh' }}>
                 <Grid item xs={12} md={6} component={StyledPaperAuth} elevation={6}>
-                    <Grid container justifyContent="flex-end" sx={{ display: { xs: "flex", md: "none" } }}>
-                        <IconButton component={Link} to="/" sx={{ position: "absolute" }}>
-                            <CloseIcon sx={{ fontSize: "30px" }} />
-                        </IconButton>
+                    <Grid container justifyContent="space-between" sx={{ display: { xs: "flex", md: "none" } }}>
+                        <Box
+                            component="img"
+                            sx={{
+                                height: { xs: 48, sm: 60 },
+                                width: { xs: 48, sm: 60 },
+                                objectFit: "cover",
+                                color: 'white',
+                                cursor: "pointer",
+                                position: "absolute",
+                                margin: "8px"
+                            }}
+                            onClick={() => navigate("/")}
+                            alt="Logo"
+                            src={"https://images.prismic.io/userzoom/7d6cc26c-b2fa-446f-aec8-149568e4e56c_Zooie.png?auto=compress,format"}
+                        />
+                        {
+                            isDark
+                                ?
+                                <CustomIconButton component={Link} to="/" sx={{ position: "absolute", right: 0, margin: "8px" }}>
+                                    <CloseIcon sx={{ fontSize: "30px" }} />
+                                </CustomIconButton>
+                                :
+                                <IconButton component={Link} to="/" sx={{ position: "absolute", right: 0, margin: "8px" }}>
+                                    <CloseIcon sx={{ fontSize: "30px", color: "white" }} />
+                                </IconButton>
+                        }
                     </Grid>
                     <Stack justifyContent="center" alignItems="center" sx={{
                         mx: 4,
@@ -103,6 +124,8 @@ function Register() {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 error={touched.email && Boolean(errors.email)}
+                                                variant='filled'
+                                                InputProps={{ disableUnderline: true }}
                                             />
                                             {errors.email && touched.email && <Typography variant="caption" color="error.main">{errors.email}</Typography>}
                                             <CustomTextFieldAuth
@@ -116,6 +139,8 @@ function Register() {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 error={touched.userName && Boolean(errors.userName)}
+                                                variant='filled'
+                                                InputProps={{ disableUnderline: true }}
                                             />
                                             {errors.userName && touched.userName && <Typography variant="caption" color="error.main">{errors.userName}</Typography>}
                                             <CustomTextFieldAuth
@@ -129,6 +154,8 @@ function Register() {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 error={touched.password && Boolean(errors.password)}
+                                                variant='filled'
+                                                InputProps={{ disableUnderline: true }}
                                             />
                                             {errors.password && touched.password && <Typography variant="caption" color="error.main">{errors.password}</Typography>}
                                             <CustomTextFieldAuth
@@ -142,6 +169,8 @@ function Register() {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 error={touched.passwordConfirm && Boolean(errors.passwordConfirm)}
+                                                variant='filled'
+                                                InputProps={{ disableUnderline: true }}
                                             />
                                             {errors.passwordConfirm && touched.passwordConfirm && <Typography variant="caption" color="error.main">{errors.passwordConfirm}</Typography>}
 

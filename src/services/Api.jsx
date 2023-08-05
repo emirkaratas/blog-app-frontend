@@ -35,3 +35,11 @@ export const fetchLatestPosts = async () => {
         { id: 4 }
     ]
 }
+
+export const fetchRecommendedPosts = async () => {
+    return [
+        { id: 0 },
+        { id: 1 },
+        { id: 2 },
+    ]
+}

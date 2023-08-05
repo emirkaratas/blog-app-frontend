@@ -7,8 +7,13 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { Link } from 'react-router-dom';
+import SkeletonBlogItem from './SkeletonBlogItem';
+import { useQuery } from 'react-query';
+import { fetchRecommendedPosts } from '../services/Api';
+
 
 function SideBar() {
+    const { isLoading, error, data } = useQuery("recommended:posts", fetchRecommendedPosts)
     const categories = { "Yazılım": "/posts?category=yazilim", "Donanım": "/posts?category=donanim", "Oyun": "/posts?category=oyun", "Otomobil": "/posts?category=otomobil", "Yaşam": "/posts?category=yasam", "Müzik": "/posts?category=muzik", "Film & Dizi": "/posts?category=film-dizi", "Giyilebilir Teknoloji": "/posts?category=giyilebilir-teknoloji" }
     return (
         <Grid item xs={12} md={4} order={{ xs: 1 }} position={{ md: "sticky" }} sx={{ top: "48px" }} >
@@ -36,9 +41,16 @@ function SideBar() {
                         Önerilen Yazılar
                     </Typography>
                     <Stack spacing={2} sx={{ marginTop: "20px" }}>
-                        <BlogItem recommended={true} />
-                        <BlogItem recommended={true} />
-                        <BlogItem recommended={true} />
+                        {
+                            isLoading && <>
+                                <SkeletonBlogItem recommended={true} />
+                                <SkeletonBlogItem recommended={true} />
+                                <SkeletonBlogItem recommended={true} />
+                            </>
+                        }
+                        {
+                            data?.map((item) => (<BlogItem recommended={true} key={item.id} isLoading={isLoading} />))
+                        }
                     </Stack>
                     <Divider sx={{ marginTop: "16px" }} />
                 </Box>
@@ -47,17 +59,17 @@ function SideBar() {
                 </Typography>
                 <Grid container justifyContent="center">
                     <CustomIconButton aria-label='Facebook'>
-                        <FacebookIcon sx={{ fontSize: {xs:"40px",sm:"45px"}}} />
+                        <FacebookIcon sx={{ fontSize: { xs: "40px", sm: "45px" } }} />
                     </CustomIconButton>
                     <CustomIconButton aria-label='Instagram'>
-                        <InstagramIcon sx={{ fontSize: {xs:"40px",sm:"45px"}}} />
+                        <InstagramIcon sx={{ fontSize: { xs: "40px", sm: "45px" } }} />
                     </CustomIconButton>
                     <CustomIconButton aria-label='Twitter'>
-                        <TwitterIcon sx={{ fontSize: {xs:"40px",sm:"45px"}}} />
+                        <TwitterIcon sx={{ fontSize: { xs: "40px", sm: "45px" } }} />
                     </CustomIconButton>
                     <CustomIconButton aria-label='Youtube'>
-                        <YouTubeIcon sx={{ fontSize: {xs:"40px",sm:"45px"}}} />
-                    </CustomIconButton>        
+                        <YouTubeIcon sx={{ fontSize: { xs: "40px", sm: "45px" } }} />
+                    </CustomIconButton>
                 </Grid>
                 <Divider sx={{ marginTop: "16px" }} />
                 <Typography sx={{ marginTop: "16px", textAlign: "center" }}>Copyright © 2023 Blog, Inc.</Typography>
