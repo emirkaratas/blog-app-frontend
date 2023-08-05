@@ -73,11 +73,11 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                         edge="start"
                         sx={{
                             mr: 2,
-                            color:!isDark&&"white",
+                            color: !isDark && "white",
                             ...(open && { display: 'none' }),
-                            ":hover":{
-                                color:!isDark&&"white",
-                                opacity:!isDark&&".8"
+                            ":hover": {
+                                color: !isDark && "white",
+                                opacity: !isDark && ".8"
                             }
                         }}
                     >
@@ -88,8 +88,8 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                             component="img"
                             sx={{
                                 height: 48,
-                                width:48,
-                                objectFit:"cover",
+                                width: 48,
+                                objectFit: "cover",
                                 color: 'white',
                                 cursor: "pointer",
                             }}
@@ -97,12 +97,14 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                             alt="Logo"
                             src={"https://images.prismic.io/userzoom/7d6cc26c-b2fa-446f-aec8-149568e4e56c_Zooie.png?auto=compress,format"}
                         />
-                    }    
+                    }
                     {
-                        !open && <StyledTypography variant='h6' sx={{ marginLeft: "10px", color:!isDark&&"white", ":hover":{
-                            color:!isDark&&"white",
-                            opacity:!isDark&&".9"
-                        } }} component={Link} to="/">Blog</StyledTypography>
+                        !open && <StyledTypography variant='h6' sx={{
+                            marginLeft: "10px", color: !isDark && "white", ":hover": {
+                                color: !isDark && "white",
+                                opacity: !isDark && ".9"
+                            }
+                        }} component={Link} to="/">Blog</StyledTypography>
                     }
                 </Toolbar>
                 <Autocomplete
@@ -115,26 +117,28 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                     isOptionEqualToValue={(option, value) => option.value === value.value}
                     getOptionLabel={(option) => (option.firstName ? `${option.firstName} ${option.lastName}` : '')}
                     noOptionsText={inputValue.length <= 1 ? "Yazınız" : "Sonuç Bulunamadı"}
-                    sx={{ width: 500, marginY: 1,'& fieldset': { borderRadius: "5px" } }}
+                    sx={{ width: 500, marginY: 1, '& fieldset': { borderRadius: "5px" } }}
                     renderInput={(params, item) => <TextField {...params}
-                    sx={{ marginY: 0,background:!isDark&&"white", borderRadius:"5px", textColor: !isDark&&"white","& label": {
-                        "&.Mui-focused": {
-                          color: !isDark&&'black'
-                        },
-                      } }}
+                        sx={{
+                            marginY: 0, background: !isDark && "white", borderRadius: "5px", textColor: !isDark && "white", "& label": {
+                                "&.Mui-focused": {
+                                    color: !isDark && 'black'
+                                },
+                            }
+                        }}
                         label="Yazınız"
                         onSelect={() => navigate(result && `/posts/${result.id}`)}
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
-                        variant={!isDark?"filled":"outlined"}
-                        InputProps={!isDark?{ ...params.InputProps, disableUnderline: true }:{...params.InputProps}}
+                        variant={!isDark ? "filled" : "outlined"}
+                        InputProps={!isDark ? { ...params.InputProps, disableUnderline: true } : { ...params.InputProps }}
                     />
                     }
                 />
                 <Toolbar>
                     <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
                         <CustomIconButton isdark={isDark.toString()} onClick={handleThemeChange}
-                        sx={{color:!isDark&&"white",":hover":{color:!isDark&&"white", opacity:!isDark&&".8"}}}
+                            sx={{ color: !isDark && "white", ":hover": { color: !isDark && "white", opacity: !isDark && ".8" } }}
                         >
                             {isDark ? <NightlightRoundIcon /> : <LightModeIcon />}
                         </CustomIconButton>

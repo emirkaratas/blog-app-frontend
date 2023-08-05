@@ -9,7 +9,9 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import BlogItem from '../components/BlogItem';
 import SideBar from '../components/SideBar';
-
+import { useQuery } from 'react-query';
+import { fetchLatestPosts } from '../services/Api';
+import SkeletonBlogItem from '../components/SkeletonBlogItem';
 
 export const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#F9F9F9',
@@ -37,6 +39,8 @@ export const StyledTypography = styled(Typography)(({ theme }) => ({
 }))
 
 function Home() {
+    const { isLoading, error, data } = useQuery("home:latest", fetchLatestPosts) 
+    
     return (
         <Layout>
             <Grid container spacing={2} alignItems="flex-start">
@@ -47,21 +51,29 @@ function Home() {
                             spacing={{ xs: 1, sm: 2, md: 4 }}
                             justifyContent="space-between"
                             alignItems="center"
-                        >                
-                        <Typography variant="h6">En Son Yazılar</Typography>
-                        <StyledTypography component={Link} to="/posts">Tümünü Göster</StyledTypography>
-                    </Stack>
-                    <Stack spacing={2} sx={{ paddingBottom: "8px", marginTop: "12px" }} >
-                        <BlogItem />
-                        <BlogItem />
-                        <BlogItem />
-                        <BlogItem />
-                        <BlogItem />
-                    </Stack>
-                </Item>
+                        >
+                            <Typography variant="h6">En Son Yazılar</Typography>
+                            <StyledTypography component={Link} to="/posts">Tümünü Göster</StyledTypography>
+                        </Stack>
+                        <Stack spacing={2} sx={{ paddingBottom: "8px", marginTop: "12px" }} >
+                            {
+                                isLoading && <>
+                                <SkeletonBlogItem/>
+                                <SkeletonBlogItem/>
+                                <SkeletonBlogItem/>
+                                <SkeletonBlogItem/>
+                                <SkeletonBlogItem/>
+                                <SkeletonBlogItem/>
+                                </>
+                            }    
+                            {
+                                data?.map((item)=>(<BlogItem key={item.id} isLoading={isLoading}/>))
+                            }
+                        </Stack>
+                    </Item>
+                </Grid>
+                <SideBar />
             </Grid>
-            <SideBar />
-        </Grid>
         </Layout >
     )
 }
