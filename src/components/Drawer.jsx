@@ -116,7 +116,7 @@ function Drawer({ handleDrawerClose, open, isDark }) {
                 </DrawerHeader>
             </Stack>
             <Divider />
-            <List>
+            <List sx={{ marginTop: "4px"}}>
                 {routes.map((route) => {
                     return (
                         <ListItem key={route.name} disablePadding sx={{ display: route.show ? route.roles.includes(role) ? "block" : "none" : "none"}} >

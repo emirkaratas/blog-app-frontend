@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import IconButton from '@mui/material/IconButton';
 import MuiAppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -11,10 +11,10 @@ import Box from '@mui/material/Box';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchProducts } from '../services/Api';
 import { useQuery } from 'react-query';
-import Avatar from '@mui/material/Avatar';
 import { Autocomplete, TextField } from '@mui/material';
 import { useDebounce } from '@uidotdev/usehooks';
 import { CustomIconButton, StyledTypography } from '../pages/Home';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const CustomAppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -59,6 +59,24 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
         staleTime: 10 * 1000
     })
 
+    const [scrollTop, setScrollTop] = useState(0)
+    const onScroll = () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height =
+            document.documentElement.scrollHeight -
+            document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+
+        setScrollTop(scrolled);
+    };
+
+    useEffect(() => {
+        // Fires when the document view has been scrolled
+        window.addEventListener("scroll", onScroll);
+
+        // 
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
     const groupData = (option) => {
         if (inputValue.length > 1) return option.hair.color
     }
@@ -145,6 +163,11 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                     </Stack>
                 </Toolbar>
             </Stack>
+            <LinearProgress variant="determinate" value={scrollTop} sx={{
+                '& .MuiLinearProgress-bar': {
+                    backgroundColor: !isDark && "#F9F9F9"
+                }
+            }} />
         </CustomAppBar>
     )
 }

@@ -185,7 +185,7 @@ function Register() {
                                             type="submit"
                                             fullWidth
                                             variant="contained"
-                                            sx={{ mt: 1.5, mb: 1 }}
+                                            sx={{ mt: 1.5, mb: 1, color: "white" }}
                                         >
                                             Kayıt Ol
                                         </Button>

@@ -12,6 +12,7 @@ import SideBar from '../components/SideBar';
 import { useQuery } from 'react-query';
 import { fetchLatestPosts } from '../services/Api';
 import SkeletonBlogItem from '../components/SkeletonBlogItem';
+import { StyledCategoryName } from './Posts';
 
 export const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#F9F9F9',
@@ -52,7 +53,7 @@ function Home() {
                             justifyContent="space-between"
                             alignItems="center"
                         >
-                            <Typography variant="h6">En Son Yazılar</Typography>
+                            <StyledCategoryName variant="h6">En Son Yazılar</StyledCategoryName>
                             <StyledTypography component={Link} to="/posts">Tümünü Göster</StyledTypography>
                         </Stack>
                         <Stack spacing={2} sx={{ paddingBottom: "8px", marginTop: "12px" }} >
@@ -67,7 +68,7 @@ function Home() {
                                 </>
                             }    
                             {
-                                data?.map((item)=>(<BlogItem key={item.id} isLoading={isLoading}/>))
+                                data?.map((item)=>(<BlogItem key={item.id}/>))
                             }
                         </Stack>
                     </Item>
