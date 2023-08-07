@@ -76,7 +76,7 @@ const CustomDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== '
 function Drawer({ handleDrawerClose, open, isDark }) {
     const theme = useTheme();
     const navigate = useNavigate()
-    const loggedIn = false
+    const loggedIn = true
     const role = "Admin"
 
     const [openProfile, setOpenProfile] = React.useState(false);

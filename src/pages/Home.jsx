@@ -15,7 +15,7 @@ import SkeletonBlogItem from '../components/SkeletonBlogItem';
 import { StyledCategoryName } from './Posts';
 
 export const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#F9F9F9',
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#F5F5F5',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     marginTop: theme.spacing(2),

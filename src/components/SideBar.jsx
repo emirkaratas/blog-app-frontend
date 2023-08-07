@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Stack, Typography, Button, IconButton } from '@mui/material';
+import { Box, Divider, Grid, Stack, Typography, Button } from '@mui/material';
 import React from 'react'
 import { CustomIconButton, Item } from '../pages/Home';
 import BlogItem from './BlogItem';
@@ -21,20 +21,18 @@ function SideBar() {
                 <Typography variant="h6" gutterBottom>
                     Kategoriler
                 </Typography>
-                <Box display="flex"
-                    justifyContent="center"
-                    component="div"
-                    sx={{ display: 'inline' }}
-                    alignItems="center">
+                <Grid container spacing={.3}>
                     {
                         Object.keys(categories).map((category) => {
                             const key = categories[category];
-                            return <Button variant="outlined" sx={{ margin: "2px" }} component={Link} to={`${key}`} key={key} state={{ cat: category }}>
-                                {category}
-                            </Button>
+                            return <Grid item key={key}>
+                                <Button variant="outlined" sx={{ margin: "2px" }} component={Link} to={`${key}`} key={key} state={{ cat: category }}>
+                                    {category}
+                                </Button>
+                            </Grid>
                         })
                     }
-                </Box>
+                </Grid>
                 <Divider sx={{ marginTop: "16px" }} />
                 <Box sx={{ display: { xs: "none", md: "block" } }}>
                     <Typography variant="h6" gutterBottom sx={{ marginTop: "16px" }}>
