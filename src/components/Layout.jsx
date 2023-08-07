@@ -44,7 +44,7 @@ export default function Layout({ children, freeLayout }) {
       <CssBaseline />
       {
         freeLayout == true ? children : <Box sx={{
-          display: 'flex'
+          display: {xs:'block',lg:"flex"}
         }}>
           <SnackbarProvider anchorOrigin={{
             vertical: 'top',

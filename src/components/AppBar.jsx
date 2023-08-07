@@ -38,17 +38,6 @@ const CustomAppBar = styled(MuiAppBar, {
     }),
 }));
 
-const ThemeButton = styled(IconButton)(
-    ({ isdark }) => ({
-        backgroundColor: "#e6e6e6",
-        ":hover": { backgroundColor: "#f2f2f2" },
-        ...(isdark == "true" && {
-            backgroundColor: "#595959",
-            ":hover": { backgroundColor: "#666666" }
-        })
-    })
-)
-
 function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
     const navigate = useNavigate()
     const [inputValue, setInputValue] = useState("")
@@ -71,10 +60,7 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
     };
 
     useEffect(() => {
-        // Fires when the document view has been scrolled
         window.addEventListener("scroll", onScroll);
-
-        // 
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
     const groupData = (option) => {
@@ -84,7 +70,7 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
     return (
         <CustomAppBar position="fixed" open={open} color="primary" >
             <Stack direction="row" justifyContent="space-between">
-                <Toolbar>
+                <Toolbar sx={{paddingX:open?"8px!important":2}}>
                     <CustomIconButton
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
