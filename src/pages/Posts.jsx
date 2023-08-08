@@ -32,7 +32,7 @@ function Posts() {
     const { data, isLoading, isFetching } = useQuery(["posts", param, sort], fetchPosts)
     const category = useLocation()
     let resultCategory = (category.state != null) ? category.state.cat : null
-    const sortings = [{name:"En Son",value:"latest"},{name:"En Popüler",value:"popular"},{name:"En Eski",value:"oldest"}]
+    const sortings = [{ name: "En Son", value: "latest" }, { name: "En Popüler", value: "popular" }, { name: "En Eski", value: "oldest" }]
     return (
         <Layout>
             <Grid container spacing={2} alignItems="flex-start">
@@ -56,20 +56,20 @@ function Posts() {
                                     displayEmpty
                                 >
                                     {
-                                    sortings.map((element,index)=><MenuItem 
-                                    value={element.value} 
-                                    key={index}
-                                    sx={{
-                                        '&.Mui-selected': {
-                                            backgroundColor: 'rgba(247, 115, 64, .27)',
-                                            ":hover":{
-                                                backgroundColor: 'rgba(247, 115, 64, .33)'
-                                            }
-                                        },
-                                    }}
-                                    >
-                                        {element.name}
-                                    </MenuItem>)
+                                        sortings.map((element, index) => <MenuItem
+                                            value={element.value}
+                                            key={index}
+                                            sx={{
+                                                '&.Mui-selected': {
+                                                    backgroundColor: 'rgba(247, 115, 64, .27)',
+                                                    ":hover": {
+                                                        backgroundColor: 'rgba(247, 115, 64, .33)'
+                                                    }
+                                                },
+                                            }}
+                                        >
+                                            {element.name}
+                                        </MenuItem>)
                                     }
                                 </Select>
                             </FormControl>

@@ -30,7 +30,7 @@ function BlogItem({ recommended }) {
             }}>
                 <CardMedia
                     component="img"
-                    sx={{ height: { xs: "200px", sm: "auto" }, width: { xs: "100%", sm: !recommended ? "300px" : "120px" } }}
+                    sx={{ height: { xs: "200px", sm: "auto" }, width: { xs: "100%", sm: !recommended ? "35%" : "120px", lg: !recommended ? "300px" : "120px" } }}
                     image="https://e0.pxfuel.com/wallpapers/920/271/desktop-wallpaper-what-would-happen-if-you-mutated-your-react-redux-state-r-reactjs-react-native-thumbnail.jpg"
                     alt="Title"
                 />

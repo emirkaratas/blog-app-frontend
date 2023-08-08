@@ -76,7 +76,7 @@ const CustomDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== '
 function Drawer({ handleDrawerClose, open, isDark }) {
     const theme = useTheme();
     const navigate = useNavigate()
-    const loggedIn = true
+    const loggedIn = false
     const role = "Admin"
 
     const [openProfile, setOpenProfile] = React.useState(false);
@@ -86,9 +86,9 @@ function Drawer({ handleDrawerClose, open, isDark }) {
     const routes = [
         { name: "Ana Sayfa", link: "/", modal: { onClick: null, isModal: false, selected: null }, icon: <HomeIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
         { name: "Yazılar", link: "/posts", modal: { onClick: null, isModal: false, selected: null }, icon: <ArticleIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
-        { name: "Hakkında", link: "/about", modal: { onClick: null, isModal: false, selected: null }, icon: <InfoIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
         { name: "Giriş Yap", link: "/login", modal: { onClick: null, isModal: false, selected: null }, icon: <AccountCircleIcon />, show: !loggedIn, roles: ["Admin", "Guest", "Writer"] },
         { name: "Profil", link: "", modal: { onClick: handleOpenProfile, isModal: true, selected: openProfile }, icon: <AccountCircleIcon />, show: loggedIn, roles: ["Admin", "Guest", "Writer"] },
+        { name: "Hakkında", link: "/about", modal: { onClick: null, isModal: false, selected: null }, icon: <InfoIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
     ]
 
     const { pathname } = useLocation()

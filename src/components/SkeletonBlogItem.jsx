@@ -14,8 +14,8 @@ function SkeletonBlogItem({ recommended }) {
             flexDirection: { xs: "column", sm: "row" },
             height: { xs: "auto", sm: !recommended ? "200px" : "120px" }
         }}>
-            <Skeleton variant="rectangular" animation="wave" sx={{ height: { xs: "200px", sm: "auto" }, width: { xs: "100%", sm: !recommended ? "300px" : "120px" } }} />
-            <Box sx={{ display: "flex", flexDirection: "column", width: { sx: "100%", sm: !recommended ? "calc(100% - 300px)" : "calc(100% - 120px)" } }} justifyContent="space-evenly">
+            <Skeleton variant="rectangular" animation="wave" sx={{ height: { xs: "200px", sm: "auto" }, width: { xs: "100%", sm: !recommended ? "35%" : "120px", lg: !recommended ? "300px" : "120px" } }} />
+            <Box sx={{ display: "flex", flexDirection: "column", width: { sx: "100%", sm: !recommended ? "calc(100% - 35%)" : "calc(100% - 120px)", lg: !recommended ? "calc(100% - 300px)" : "calc(100% - 120px)" } }} justifyContent="space-evenly">
                 <CardContent >
                     {
                         recommended ?
