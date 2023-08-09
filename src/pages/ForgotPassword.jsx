@@ -33,6 +33,7 @@ function ForgotPassword() {
     const [activeStep, setActiveStep] = useState(0)
     const [selectedOption, setSelectedOption] = useState("")
     const navigate = useNavigate()
+    const isDark = JSON.parse(localStorage.getItem("isDark")) || false
     const steps = [
         { label: "Şifre Sıfırlama Yöntemini Seçiniz", options: [{ label: "Email ile Sıfırla", value: "email" }, { label: "Kullancı Adı ile Sıfırla", value: "userName" }] },
         { label: selectedOption == "" ? "Şifre Sıfırla" : selectedOption == "email" ? "Email Giriniz" : "Kullanıcı Adını Giriniz" }
@@ -77,7 +78,7 @@ function ForgotPassword() {
                 {steps.map((step, index) => (
                     <Step key={step.label}>
                         <StepLabel>
-                            <Typography color="white">{step.label}</Typography>
+                            <Typography sx={{color:!isDark?{xs:"white",md:"black"}:"white"}}>{step.label}</Typography>
                         </StepLabel>
                         <StepContent>
                             {

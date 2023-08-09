@@ -45,7 +45,6 @@ const validationSchema = yup.object().shape({
 })
 
 function Register() {
-    const isDark = JSON.parse(localStorage.getItem("isDark")) || false
     const handleSubmit = async (values, bag) => {
         try {
             const registerResponse = await fetchRegister(values)

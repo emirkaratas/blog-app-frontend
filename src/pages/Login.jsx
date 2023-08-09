@@ -36,7 +36,6 @@ const validationSchema = yup.object().shape({
 })
 
 function Login() {
-
   const handleSubmit = async (values, bag) => {
     try {
       const loginResponse = await fetchLogin()
