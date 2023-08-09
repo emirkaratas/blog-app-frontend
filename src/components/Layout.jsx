@@ -43,7 +43,13 @@ export default function Layout({ children, freeLayout }) {
     <ThemeProvider theme={darkTheme} >
       <CssBaseline />
       {
-        freeLayout == true ? children : <Box sx={{
+        freeLayout == true ? <Box>
+          <SnackbarProvider anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}/>
+          {children}
+        </Box> : <Box sx={{
           display: {xs:'block',lg:"flex"}
         }}>
           <SnackbarProvider anchorOrigin={{

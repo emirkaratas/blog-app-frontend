@@ -24,7 +24,7 @@ export const fetchPosts = async ({ queryKey }) => {
         { id: 9 },
     ]
 
-    
+
 }
 
 export const fetchRegister = async (values) => {
@@ -58,4 +58,10 @@ export const fetchRecommendedPosts = async () => {
         { id: 1 },
         { id: 2 },
     ]
+}
+
+export const postForgotPassword = async (values) => {
+    //throw "Hata"
+    console.log(values)
+    return "Hey"
 }
