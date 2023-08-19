@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
 import MuiAppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,13 +8,15 @@ import NightlightRoundIcon from '@mui/icons-material/NightlightRound';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import { Link, useNavigate } from 'react-router-dom';
+import Fade from '@mui/material/Fade';
+import { useNavigate } from 'react-router-dom';
 import { fetchProducts } from '../services/Api';
 import { useQuery } from 'react-query';
 import { Autocomplete, TextField } from '@mui/material';
 import { useDebounce } from '@uidotdev/usehooks';
-import { CustomIconButton, StyledTypography } from '../pages/Home';
+import { CustomIconButton } from '../pages/Home';
 import LinearProgress from '@mui/material/LinearProgress';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const CustomAppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -41,6 +43,7 @@ const CustomAppBar = styled(MuiAppBar, {
 function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
     const navigate = useNavigate()
     const [inputValue, setInputValue] = useState("")
+    const [focused, setFocused] = useState(false)
     const [result, setResult] = useState("")
     const searchText = useDebounce(inputValue, 250);
     const { data } = useQuery(["search", searchText], fetchProducts, {
@@ -66,11 +69,10 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
     const groupData = (option) => {
         if (inputValue.length > 1) return option.hair.color
     }
-
     return (
         <CustomAppBar position="fixed" open={open} color="primary" >
             <Stack direction="row" justifyContent="space-between">
-                <Toolbar sx={{paddingX:open?"8px!important":2}}>
+                <Toolbar sx={{ paddingX: open ? "8px!important" : 2, my: { xs: "8px", sm: "4px", md: "0px" } }}>
                     <CustomIconButton
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
@@ -102,45 +104,60 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                             src={"https://images.prismic.io/userzoom/7d6cc26c-b2fa-446f-aec8-149568e4e56c_Zooie.png?auto=compress,format"}
                         />
                     }
-                    {
-                        !open && <StyledTypography variant='h6' sx={{
-                            marginLeft: "10px", color: !isDark && "white", ":hover": {
-                                color: !isDark && "white",
-                                opacity: !isDark && ".9"
-                            }
-                        }} component={Link} to="/">Blog</StyledTypography>
-                    }
                 </Toolbar>
-                <Autocomplete
-                    value={result}
-                    onChange={(e, v) => v != null && setResult(v)}
-                    options={data != undefined && data.sort((a, b) =>
-                        b.hair.color.toString().localeCompare(a.hair.color.toString())
-                    ) || []}
-                    groupBy={(option) => groupData(option)}
-                    isOptionEqualToValue={(option, value) => option.value === value.value}
-                    getOptionLabel={(option) => (option.firstName ? `${option.firstName} ${option.lastName}` : '')}
-                    noOptionsText={inputValue.length <= 1 ? "Yazınız" : "Sonuç Bulunamadı"}
-                    sx={{ width: 500, marginY: 1, '& fieldset': { borderRadius: "5px" } }}
-                    renderInput={(params, item) => <TextField {...params}
-                        sx={{
-                            marginY: 0, background: !isDark && "white", borderRadius: "5px", textColor: !isDark && "white", "& label": {
-                                "&.Mui-focused": {
-                                    color: !isDark && 'black'
-                                },
+                <Box sx={{
+                    width: focused ? { xs: "50%", sm: "50%", md: "40%", lg: "20%" } : { xs: 24, md: "40%", lg: "20%" },
+                    transition: ".6s width", marginY: 1, '& fieldset': { borderRadius: "5px" },
+                    "& .MuiAutocomplete-popupIndicator": { transform: "none" },
+                    visibility: { xs: !focused ? "hidden" : "visible", md: "visible" },
+                }}>
+                    <Fade in={true} timeout={1000}>
+                        <Autocomplete
+                            disablePortal={true}
+                            onClose={() => setFocused(false)}
+                            value={result}
+                            onChange={(e, v) => v != null && setResult(v)}
+                            options={data != undefined && data.sort((a, b) =>
+                                b.hair.color.toString().localeCompare(a.hair.color.toString())
+                            ) || []}
+                            groupBy={(option) => groupData(option)}
+                            isOptionEqualToValue={(option, value) => option.value === value.value}
+                            popupIcon={!focused ? <SearchIcon /> : <ClearIcon />}
+                            disableClearable
+                            getOptionLabel={(option) => (option.firstName ? `${option.firstName} ${option.lastName}` : '')}
+                            noOptionsText={inputValue.length <= 1 ? "Yazınız" : "Sonuç Bulunamadı"}
+                            renderInput={(params, item) =>
+                                <TextField {...params}
+                                    sx={{
+                                        marginY: 0, background: !isDark && "white", borderRadius: "5px", textColor: !isDark && "white", "& label": {
+                                            "&.Mui-focused": {
+                                                color: !isDark && 'black'
+                                            },
+                                        }
+                                    }}
+                                    label="Yazınız"
+                                    onBlur={() => setFocused(false)}
+                                    onSelect={() => navigate(result && `/posts/${result.id}`)}
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    variant={!isDark ? "filled" : "outlined"}
+                                    InputProps={!isDark ? { ...params.InputProps, disableUnderline: true } : { ...params.InputProps }}
+                                />
                             }
-                        }}
-                        label="Yazınız"
-                        onSelect={() => navigate(result && `/posts/${result.id}`)}
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        variant={!isDark ? "filled" : "outlined"}
-                        InputProps={!isDark ? { ...params.InputProps, disableUnderline: true } : { ...params.InputProps }}
-                    />
-                    }
-                />
-                <Toolbar>
+                        /></Fade>
+                </Box>
+                <Toolbar >
                     <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
+                        <CustomIconButton onClick={() => setFocused(true)} sx={{
+                            color: !isDark && "white",
+                            ":hover": { color: !isDark && "white", opacity: !isDark && ".8" },
+                            display: { xs: focused ? "none" : "block", md: "none" },
+                            height: 40,
+                            width: 40,
+                        }}
+                        >
+                            <SearchIcon />
+                        </CustomIconButton>
                         <CustomIconButton isdark={isDark.toString()} onClick={handleThemeChange}
                             sx={{ color: !isDark && "white", ":hover": { color: !isDark && "white", opacity: !isDark && ".8" } }}
                         >

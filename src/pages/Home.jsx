@@ -46,7 +46,7 @@ function Home() {
         <Layout>
             <Grid container spacing={2} alignItems="flex-start">
                 <Grid item xs={12} md={8} order={{ xs: 2, md: 1 }} >
-                    <Item sx={{ borderRadius: "10px", padding: "10px" }}>
+                    <Item sx={{ borderRadius: "10px", padding: "10px", mt:{xs:3,sm:2} }}>
                         <Stack
                             direction="row"
                             spacing={{ xs: 1, sm: 2, md: 4 }}

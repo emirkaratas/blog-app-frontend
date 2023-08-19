@@ -80,12 +80,15 @@ function Drawer({ handleDrawerClose, open, isDark }) {
     const role = "Admin"
 
     const [openProfile, setOpenProfile] = React.useState(false);
-    const handleOpenProfile = () => setOpenProfile(true);
+    const handleOpenProfile = () => {
+        handleDrawerClose()
+        setOpenProfile(true)
+    }
     const handleCloseProfile = () => setOpenProfile(false);
-
+    
     const routes = [
-        { name: "Ana Sayfa", link: "/", modal: { onClick: null, isModal: false, selected: null }, icon: <HomeIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
-        { name: "Yazılar", link: "/posts", modal: { onClick: null, isModal: false, selected: null }, icon: <ArticleIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
+        { name: "Ana Sayfa", link: "/", modal: { onClick: handleDrawerClose, isModal: false, selected: null }, icon: <HomeIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
+        { name: "Yazılar", link: "/posts", modal: { onClick: handleDrawerClose, isModal: false, selected: null }, icon: <ArticleIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
         { name: "Giriş Yap", link: "/login", modal: { onClick: null, isModal: false, selected: null }, icon: <AccountCircleIcon />, show: !loggedIn, roles: ["Admin", "Guest", "Writer"] },
         { name: "Profil", link: "", modal: { onClick: handleOpenProfile, isModal: true, selected: openProfile }, icon: <AccountCircleIcon />, show: loggedIn, roles: ["Admin", "Guest", "Writer"] },
         { name: "Hakkında", link: "/about", modal: { onClick: null, isModal: false, selected: null }, icon: <InfoIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
@@ -107,7 +110,7 @@ function Drawer({ handleDrawerClose, open, isDark }) {
                         alt="Logo"
                         src={"https://images.prismic.io/userzoom/7d6cc26c-b2fa-446f-aec8-149568e4e56c_Zooie.png?auto=compress,format"}
                     />
-                    <StyledTypography variant='h6' sx={{ marginLeft: "10px" }} component={Link} to="/">Blog</StyledTypography>
+
                 </DrawerHeader>
                 <DrawerHeader>
                     <CustomIconButton onClick={handleDrawerClose}>
@@ -131,7 +134,7 @@ function Drawer({ handleDrawerClose, open, isDark }) {
                                         justifyContent: open ? 'initial' : 'center',
                                         px: 2.5,
                                         '&.Mui-selected': {
-                                            backgroundColor: 'rgba(247, 115, 64, .27)',
+                                            backgroundColor: !route.modal.isModal ?'rgba(247, 115, 64, .27)' : "rgba(255, 255, 255, .18)",
                                             ":hover":{
                                                 backgroundColor: 'rgba(247, 115, 64, .33)'
                                             }
