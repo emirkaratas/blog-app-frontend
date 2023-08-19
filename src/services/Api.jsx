@@ -65,3 +65,17 @@ export const postForgotPassword = async (values) => {
     console.log(values)
     return "Hey"
 }
+
+export const fetchCategories = async () => {
+    const data = await [
+        { name: "Yazılım", value: "yazilim" },
+        { name: "Donanım", value: "donanim" },
+        { name: "Oyun", value: "oyun" },
+        { name: "Otomobil", value: "otomobil" },
+        { name: "Yaşam", value: "yasam" },
+        { name: "Müzik", value: "muzik" },
+        { name: "Film & Dizi", value: "film-dizi" },
+        { name: "Giyilebilir Teknoloji", value: "giyilebilir-teknoloji" }
+    ]
+    return data
+}

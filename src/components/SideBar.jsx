@@ -9,12 +9,12 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import { Link } from 'react-router-dom';
 import SkeletonBlogItem from './SkeletonBlogItem';
 import { useQuery } from 'react-query';
-import { fetchRecommendedPosts } from '../services/Api';
+import { fetchCategories, fetchRecommendedPosts } from '../services/Api';
 
 
 function SideBar() {
     const { isLoading, error, data } = useQuery("recommended:posts", fetchRecommendedPosts)
-    const categories = { "Yazılım": "/posts?category=yazilim", "Donanım": "/posts?category=donanim", "Oyun": "/posts?category=oyun", "Otomobil": "/posts?category=otomobil", "Yaşam": "/posts?category=yasam", "Müzik": "/posts?category=muzik", "Film & Dizi": "/posts?category=film-dizi", "Giyilebilir Teknoloji": "/posts?category=giyilebilir-teknoloji" }
+    const { data: categories } = useQuery("categories", fetchCategories)
     return (
         <Grid item xs={12} md={4} order={{ xs: 2 }} position={{ md: "sticky" }} sx={{ top: "48px", pt:{xs:"8px!important",md:"16px!important"} }} >
             <Item sx={{ borderRadius: "10px", padding: "10px", maxHeight: "calc(100vh - 96px)", overflow: "scroll", '&::-webkit-scrollbar-corner': { backgroundColor: "rgba(0,0,0,0)" }, }} >
@@ -24,11 +24,10 @@ function SideBar() {
                     </Typography>
                     <Grid container spacing={.3}>
                         {
-                            Object.keys(categories).map((category) => {
-                                const key = categories[category];
-                                return <Grid item key={key}>
-                                    <Button variant="outlined" sx={{ margin: "2px" }} component={Link} to={`${key}`} key={key} state={{ cat: category }}>
-                                        {category}
+                            categories?.map((category,index) => {
+                                return <Grid item key={index}>
+                                    <Button variant="outlined" sx={{ margin: "2px" }} component={Link} to={`/posts?category=${category.value}`} key={index} state={{ cat: category }}>
+                                        {category.name}
                                     </Button>
                                 </Grid>
                             })
