@@ -9,7 +9,8 @@ import { SnackbarProvider } from 'notistack';
 import { ScrollTop } from './ScrollTopFab';
 
 export default function Layout({ children, freeLayout }) {
-  const [isDark, setIsDark] = React.useState(JSON.parse(localStorage.getItem("isDark")) || false)
+  const localeIsDark = JSON.parse(localStorage.getItem("isDark"))
+  const [isDark, setIsDark] = React.useState(localeIsDark==null ? true : localeIsDark || false)
   const handleThemeChange = () => setIsDark(!isDark)
   const darkTheme = createTheme({
     palette: {

@@ -12,7 +12,7 @@ import { CustomIconButton } from '../pages/Home';
 
 export const StyledPaperAuth = styled(Paper)(({ theme }) => ({
     [theme.breakpoints.down('md')]: {
-        background: theme.palette.mode === 'light' && "linear-gradient(to bottom, #f57949 0%, #FDB093 40%);",
+        background: theme.palette.mode === 'light' && "linear-gradient(to bottom, #f57949 0%, #FDB093 20%);",
         borderRadius: "0",
         color: "white"
     },

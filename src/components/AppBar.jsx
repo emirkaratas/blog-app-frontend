@@ -12,7 +12,7 @@ import Fade from '@mui/material/Fade';
 import { useNavigate } from 'react-router-dom';
 import { fetchProducts } from '../services/Api';
 import { useQuery } from 'react-query';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, InputAdornment, IconButton } from '@mui/material';
 import { useDebounce } from '@uidotdev/usehooks';
 import { CustomIconButton } from '../pages/Home';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -58,17 +58,18 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
             document.documentElement.scrollHeight -
             document.documentElement.clientHeight;
         const scrolled = (winScroll / height) * 100;
-
         setScrollTop(scrolled);
     };
-
+    
     useEffect(() => {
         window.addEventListener("scroll", onScroll);
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
+
     const groupData = (option) => {
         if (inputValue.length > 1) return option.hair.color
     }
+    
     return (
         <CustomAppBar position="fixed" open={open} color="primary" >
             <Stack direction="row" justifyContent="space-between">
@@ -107,12 +108,21 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                 </Toolbar>
                 <Box sx={{
                     width: focused ? { xs: "50%", sm: "50%", md: "40%", lg: "20%" } : { xs: 24, md: "40%", lg: "20%" },
-                    transition: ".6s width", marginY: 1, '& fieldset': { borderRadius: "5px" },
+                    marginY: 1, '& fieldset': { borderRadius: "5px" },
                     "& .MuiAutocomplete-popupIndicator": { transform: "none" },
                     visibility: { xs: !focused ? "hidden" : "visible", md: "visible" },
+                    transition: "width .6s"
                 }}>
-                    <Fade in={true} timeout={1000}>
+                    <Fade in={true} timeout={500}>
                         <Autocomplete
+                            sx={{
+                                "& .MuiOutlinedInput-root": {
+                                    paddingRight: "9px!important",
+                                },
+                                "& .MuiFilledInput-root": {
+                                    paddingRight: "9px!important",
+                                }
+                            }}
                             disablePortal={true}
                             onClose={() => setFocused(false)}
                             value={result}
@@ -122,39 +132,61 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                             ) || []}
                             groupBy={(option) => groupData(option)}
                             isOptionEqualToValue={(option, value) => option.value === value.value}
-                            popupIcon={!focused ? <SearchIcon /> : <ClearIcon />}
                             disableClearable
                             getOptionLabel={(option) => (option.firstName ? `${option.firstName} ${option.lastName}` : '')}
                             noOptionsText={inputValue.length <= 1 ? "Yazınız" : "Sonuç Bulunamadı"}
                             renderInput={(params, item) =>
                                 <TextField {...params}
+                                    color='primary'
+                                    key="Confirmation Code"
                                     sx={{
-                                        marginY: 0, background: !isDark && "white", borderRadius: "5px", textColor: !isDark && "white", "& label": {
+                                        marginY: 0, background: !isDark && "#F6F6F6", borderRadius: "5px", textColor: !isDark && "white", "& label": {
                                             "&.Mui-focused": {
                                                 color: !isDark && 'black'
                                             },
                                         }
                                     }}
                                     label="Yazınız"
-                                    onBlur={() => setFocused(false)}
                                     onSelect={() => navigate(result && `/posts/${result.id}`)}
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     variant={!isDark ? "filled" : "outlined"}
-                                    InputProps={!isDark ? { ...params.InputProps, disableUnderline: true } : { ...params.InputProps }}
+                                    InputProps={
+                                            {
+                                                ...(!isDark && {disableUnderline: true}),
+                                                ...params.InputProps,
+                                                endAdornment: (
+                                                    <InputAdornment position="end" sx={{
+                                                        position: "absolute",
+                                                        right: "2%",
+                                                        top: "50%"
+                                                    }}>
+                                                        {focused ?
+                                                            <IconButton onClick={() => setFocused(false)}>
+                                                                <ClearIcon />
+                                                            </IconButton>
+                                                            :
+                                                            <IconButton >
+                                                                <SearchIcon />
+                                                            </IconButton>
+                                                        }
+                                                    </InputAdornment>
+                                                ),
+                                            }}
                                 />
                             }
                         /></Fade>
                 </Box>
                 <Toolbar >
                     <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-                        <CustomIconButton onClick={() => setFocused(true)} sx={{
-                            color: !isDark && "white",
-                            ":hover": { color: !isDark && "white", opacity: !isDark && ".8" },
-                            display: { xs: focused ? "none" : "block", md: "none" },
-                            height: 40,
-                            width: 40,
-                        }}
+                        <CustomIconButton onClick={() => setFocused(true)}
+                            sx={{
+                                color: !isDark && "white",
+                                ":hover": { color: !isDark && "white", opacity: !isDark && ".8" },
+                                display: { xs: focused ? "none" : "block", md: "none" },
+                                height: 40,
+                                width: 40,
+                            }}
                         >
                             <SearchIcon />
                         </CustomIconButton>
