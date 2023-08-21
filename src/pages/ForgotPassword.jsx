@@ -76,9 +76,13 @@ function ForgotPassword() {
             <Divider sx={{ width: { xs: "100%", sm: "80%", md: "70%" }, mb: 4, mt: 1 }} />
             <Stepper activeStep={activeStep} orientation="vertical" sx={{ width: { xs: "100%", sm: "80%", md: "70%" } }}>
                 {steps.map((step, index) => (
-                    <Step key={step.label}>
+                    <Step key={step.label} sx={{
+                        '& .MuiStepLabel-root .Mui-active .MuiStepIcon-text': {
+                            fill: 'white'
+                        },
+                    }}>
                         <StepLabel>
-                            <Typography sx={{color:!isDark?{xs:"white",md:"black"}:"white"}}>{step.label}</Typography>
+                            <Typography sx={{ color: !isDark ? { xs: "white", md: "black" } : "white" }}>{step.label}</Typography>
                         </StepLabel>
                         <StepContent>
                             {
@@ -100,7 +104,7 @@ function ForgotPassword() {
                                 <Formik initialValues={{ email: '', userName: '' }} validationSchema={selectedOption == "email" ? emailValidationSchema : userNameValidationSchema} onSubmit={handleSubmit} >
                                     {
                                         ({ errors, touched, handleChange, handleSubmit, handleBlur, values }) => (
-                                            <Box sx={{mt:1}} component="form" noValidate onSubmit={handleSubmit} >
+                                            <Box sx={{ mt: 1 }} component="form" noValidate onSubmit={handleSubmit} >
                                                 <Stack>
                                                     {
                                                         errors.general && (

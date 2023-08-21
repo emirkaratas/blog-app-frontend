@@ -113,7 +113,7 @@ function AppBar({ open, handleDrawerOpen, handleThemeChange, isDark }) {
                     visibility: { xs: !focused ? "hidden" : "visible", md: "visible" },
                     transition: "width .6s"
                 }}>
-                    <Fade in={true} timeout={500}>
+                    <Fade in={true} timeout={1000}>
                         <Autocomplete
                             sx={{
                                 "& .MuiOutlinedInput-root": {
