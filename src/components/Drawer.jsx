@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -20,7 +20,7 @@ import { CustomIconButton, StyledTypography } from '../pages/Home';
 import Profile from './Profile';
 
 const openedMixin = (theme) => ({
-    width: "180px",
+    width: "100%",
     [theme.breakpoints.up("sm")]: {
         width: "280px",
     },
@@ -76,6 +76,8 @@ const CustomDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== '
 function Drawer({ handleDrawerClose, open, isDark }) {
     const theme = useTheme();
     const navigate = useNavigate()
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 600)
+
     const loggedIn = false
     const role = "Admin"
 
@@ -85,19 +87,38 @@ function Drawer({ handleDrawerClose, open, isDark }) {
         setOpenProfile(true)
     }
     const handleCloseProfile = () => setOpenProfile(false);
-    
+
+    const handleResize = () => {
+        if (window.innerWidth < 600) {
+            setIsMobile(true)
+        } else {
+            setIsMobile(false)
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("resize", handleResize)
+    })
+
+    const handleRoute = async (link) => {
+        if(isMobile){
+            await handleDrawerClose()
+        }
+        navigate(link)
+    }
+
     const routes = [
-        { name: "Ana Sayfa", link: "/", modal: { onClick: handleDrawerClose, isModal: false, selected: null }, icon: <HomeIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
-        { name: "Yazılar", link: "/posts", modal: { onClick: handleDrawerClose, isModal: false, selected: null }, icon: <ArticleIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
-        { name: "Giriş Yap", link: "/login", modal: { onClick: null, isModal: false, selected: null }, icon: <AccountCircleIcon />, show: !loggedIn, roles: ["Admin", "Guest", "Writer"] },
+        { name: "Ana Sayfa", link: "/", modal: { onClick: handleRoute, isModal: false, selected: null }, icon: <HomeIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
+        { name: "Yazılar", link: "/posts", modal: { onClick: handleRoute, isModal: false, selected: null }, icon: <ArticleIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
+        { name: "Giriş Yap", link: "/login", modal: { onClick: handleRoute, isModal: false, selected: null }, icon: <AccountCircleIcon />, show: !loggedIn, roles: ["Admin", "Guest", "Writer"] },
         { name: "Profil", link: "", modal: { onClick: handleOpenProfile, isModal: true, selected: openProfile }, icon: <AccountCircleIcon />, show: loggedIn, roles: ["Admin", "Guest", "Writer"] },
-        { name: "Hakkında", link: "/about", modal: { onClick: null, isModal: false, selected: null }, icon: <InfoIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
+        { name: "Hakkında", link: "/about", modal: { onClick: handleRoute, isModal: false, selected: null }, icon: <InfoIcon />, show: true, roles: ["Admin", "Guest", "Writer"] },
     ]
 
     const { pathname } = useLocation()
     return (
         <CustomDrawer variant="permanent" open={open}>
-            <Stack flexDirection="row" justifyContent="space-between" color="primary">
+            <Stack flexDirection="row" justifyContent="space-between" color="primary" sx={{ paddingX: { xs: 2, sm: 0 } }}>
                 <DrawerHeader sx={{ marginY: { xs: open ? "8px" : "0px", sm: open ? "4px" : "0px" } }}>
                     <Box
                         component="img"
@@ -119,43 +140,74 @@ function Drawer({ handleDrawerClose, open, isDark }) {
                 </DrawerHeader>
             </Stack>
             <Divider />
-            <List sx={{ marginTop: "4px"}}>
-                {routes.map((route) => {
-                    return (
-                        <ListItem key={route.name} disablePadding sx={{ display: route.show ? route.roles.includes(role) ? "block" : "none" : "none"}} >
-                            {
-                                <ListItemButton
-                                    component={Link}
-                                    onClick={route.modal.onClick}
-                                    to={route.link}
-                                    selected={route.modal.isModal == false ? route.link === pathname : route.modal.selected}
-                                    sx={{
-                                        minHeight: 60,
-                                        justifyContent: open ? 'initial' : 'center',
-                                        px: 2.5,
-                                        '&.Mui-selected': {
-                                            backgroundColor: !route.modal.isModal ?'rgba(247, 115, 64, .27)' : "rgba(255, 255, 255, .18)",
-                                            ":hover":{
-                                                backgroundColor: 'rgba(247, 115, 64, .33)'
-                                            }
-                                        },
-                                    }}
-                                >
-                                    <ListItemIcon
-                                        sx={{
-                                            minWidth: 0,
-                                            mr: open ? 3 : 'auto',
-                                            justifyContent: 'center',
-                                        }}
-                                    >
-                                        {route.icon}
-                                    </ListItemIcon>
-                                    <ListItemText primary={route.name} sx={{ opacity: open ? 1 : 0 }} />
-                                </ListItemButton>
-                            }
-                        </ListItem>
-                    );
-                })}
+            <List sx={{ marginTop: "4px", height: "100%" }}>
+                <Stack direction="column" justifyContent="space-between" sx={{ height: "100%" }}>
+                    <Box>
+                        {routes.map((route) => {
+                            return (
+                                <ListItem key={route.name} disablePadding sx={{ display: route.show ? route.roles.includes(role) ? "block" : "none" : "none" }} >
+                                    {
+                                        <ListItemButton
+                                            onClick={() => handleRoute(route.link)}
+                                            selected={route.modal.isModal == false ? route.link === pathname : route.modal.selected}
+                                            sx={{
+                                                minHeight: { xs: 70, sm: 60 },
+                                                justifyContent: open ? 'initial' : 'center',
+                                                px: { xs: 4.5, sm: 2.5 },
+                                                '&.Mui-selected': {
+                                                    backgroundColor: !route.modal.isModal ? 'rgba(247, 115, 64, .27)' : "rgba(255, 255, 255, .18)",
+                                                    ":hover": {
+                                                        backgroundColor: 'rgba(247, 115, 64, .33)'
+                                                    }
+                                                },
+                                            }}
+                                        >
+                                            <ListItemIcon
+                                                sx={{
+                                                    minWidth: 0,
+                                                    mr: open ? 3 : 'auto',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                {route.icon}
+                                            </ListItemIcon>
+                                            <ListItemText primary={route.name} sx={{ opacity: open ? 1 : 0 }} />
+                                        </ListItemButton>
+                                    }
+                                </ListItem>
+                            );
+                        })}
+                    </Box>
+                    <ListItemButton
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to="/"
+                        // selected={route.modal.isModal == false ? route.link === pathname : route.modal.selected}
+                        sx={{
+                            maxHeight: { xs: 70, sm: 60 },
+                            justifyContent: open ? 'initial' : 'center',
+                            px: { xs: 4.5, sm: 2.5 },
+                            '&.Mui-selected': {
+                                // backgroundColor: !route.modal.isModal ? 'rgba(247, 115, 64, .27)' : "rgba(255, 255, 255, .18)",
+                                ":hover": {
+                                    backgroundColor: 'rgba(247, 115, 64, .33)'
+                                }
+                            },
+                        }}
+                    >
+                        <ListItemIcon
+                            sx={{
+                                minWidth: 0,
+                                mr: open ? 3 : 'auto',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <ArticleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Bize Katıl" sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                </Stack>
+
             </List>
             <Profile openProfile={openProfile} handleCloseProfile={handleCloseProfile} />
         </CustomDrawer>

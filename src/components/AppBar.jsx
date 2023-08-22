@@ -28,7 +28,7 @@ const CustomAppBar = styled(MuiAppBar, {
     }),
     ...(open && {
         marginLeft: "200px",
-        width: "calc(100% - 180px)",
+        width: "calc(100% - 100%)",
         [theme.breakpoints.up("sm")]: {
             width: "calc(100% - 280px)",
             marginLeft: "280px"
